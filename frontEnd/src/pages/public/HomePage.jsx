@@ -41,65 +41,11 @@ const Homepage = () => {
         );
     }
 
-    // Slider settings
-    const sliderSettings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 3, 
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                },
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                },
-            },
-        ],
-    };
+   
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-2xl font-bold mb-4">Newest Products</h1>
-            <Slider {...sliderSettings} className='border border-black'>
-                {newestProducts.map(product => (
-                    <div key={product.id} className="border rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
-                        <h2 className="text-lg font-semibold">{product.name}</h2>
-                        <p className="text-gray-600">${product.price}</p>
-                    </div>
-                ))}
-            </Slider>
-
-            <h2 className="text-xl font-semibold mb-4 mt-8 text-center">Top Categories</h2>
-            <Slider {...sliderSettings}>
-                {categories.map(category => (
-                    <div key={category.id} className="p-4 bg-gray-100 rounded hover:bg-gray-200 transition duration-200">
-                        <h3 className="text-center">{category.name}</h3>
-                    </div>
-                ))}
-            </Slider>
-
-            <h1 className="text-2xl font-bold mb-4 mt-8">Cheapest Products</h1>
-            <Slider {...sliderSettings}>
-                {cheapestProducts.map(product => (
-                    <div key={product.id} className="border rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300">
-                        <h2 className="text-lg font-semibold">{product.name}</h2>
-                        <p className="text-gray-600">${product.price}</p>
-                    </div>
-                ))}
-            </Slider>
-            <Button variant=''>
-                clock
-            </Button>
-        </div>
+  
+           <h1>sup</h1>
         
     );
 };
