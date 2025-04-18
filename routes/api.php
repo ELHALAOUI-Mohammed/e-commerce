@@ -49,3 +49,7 @@ Route::post('/orders/cancel/{id}', [OrderController::class, 'cancel']);
 Route::get('/favorites/{userId}', [FavoriteController::class, 'index']);
 Route::post('/favorites', [FavoriteController::class, 'store']);
 Route::delete('/favorites', [FavoriteController::class, 'destroy']);
+
+
+// images
+Route::get('/images/{filename}', [ImageController::class, 'serve']);

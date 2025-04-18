@@ -1,17 +1,14 @@
+// Homepage.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import { Button } from '@/components/ui/button';
-
+import CarouselHome from '../../components/CarouselHome'; // Adjust the path as necessary
+import ImageDisplay from '../../components/ImageDisplay';
 
 const Homepage = () => {
     const [newestProducts, setNewestProducts] = useState([]);
     const [cheapestProducts, setCheapestProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
-    
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -41,12 +38,22 @@ const Homepage = () => {
         );
     }
 
-   
-
     return (
-  
-           <h1>sup</h1>
-        
+        <div>
+            <ImageDisplay imageName="image.png"/>
+            <CarouselHome 
+                title="Newest Products" 
+                items={newestProducts} 
+            />
+            <CarouselHome 
+                title="Categories" 
+                items={categories} 
+            />
+            <CarouselHome 
+                title="Cheapest Products" 
+                items={cheapestProducts} 
+            />
+        </div>
     );
 };
 
