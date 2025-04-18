@@ -1,0 +1,52 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Product;
+
+class ProductController extends Controller
+{
+    
+    public function index() {
+        return Product::all();
+    }
+
+    public function store(Request $request) {
+        $request->validate([
+            'name' => 'required', 'price' => 'required', 'stock' => 'required', 'category_id' => 'required'
+        ]);
+        return Product::create($request->all());
+    }
+
+    public function show($id) {
+        return Product::findOrFail($id);
+    }
+
+    public function update(Request $request, $id) {
+        $product = Product::findOrFail($id);
+        $product->update($request->all());
+        return $product;
+    }
+
+    public function destroy($id) {
+        Product::findOrFail($id)->delete();
+        return response()->json(['message' => 'Product deleted']);
+    }
+
+
+    public function newestProducts()
+    {
+        // Fetch the 10 newest products ordered by created_at in descending order
+        $newestProducts = Product::orderBy('created_at', 'desc')->take(10)->get();
+
+        return response()->json($newestProducts);
+    }
+     public function cheapestProducts()
+    {
+        // Fetch the 10 cheapest products ordered by price in ascending order
+        $cheapestProducts = Product::orderBy('price', 'asc')->take(10)->get();
+
+        return response()->json($cheapestProducts);
+    }
+}
