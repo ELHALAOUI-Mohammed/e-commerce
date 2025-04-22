@@ -40,10 +40,11 @@ const Homepage = () => {
 
     return (
         <div>
-            <ImageDisplay imageName="image.png"/>
+            
             <CarouselHome 
                 title="Newest Products" 
                 items={newestProducts} 
+                
             />
             <CarouselHome 
                 title="Categories" 

@@ -20,6 +20,7 @@ const CarouselHome = ({ title, items }) => {
                             <div className="p-1">
                                 <Card>
                                     <CardContent className="flex aspect-square items-center justify-center p-6">
+                                        <img src="/image.png" alt="did work" />
                                         <h2 className="text-lg font-semibold">{item.name}</h2>
                                         {item.price && <p className="text-gray-600">${item.price}</p>}
                                     </CardContent>

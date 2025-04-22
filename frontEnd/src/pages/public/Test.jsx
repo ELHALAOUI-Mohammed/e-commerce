@@ -1,106 +1,54 @@
-// // src/components/Test.jsx
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
-// import React, { useRef } from 'react';
 
-// const Test = () => {
-//     // Expanded sample data for demonstration
-//     const newestProducts = [
-//         { id: 1, name: 'Product 1', img: 'https://via.placeholder.com/150' },
-//         { id: 2, name: 'Product 2', img: 'https://via.placeholder.com/150' },
-//         { id: 3, name: 'Product 3', img: 'https://via.placeholder.com/150' },
-//         { id: 4, name: 'Product 4', img: 'https://via.placeholder.com/150' },
-//         { id: 5, name: 'Product 5', img: 'https://via.placeholder.com/150' },
-//         { id: 6, name: 'Product 6', img: 'https://via.placeholder.com/150' },
-//         { id: 7, name: 'Product 7', img: 'https://via.placeholder.com/150' },
-//         { id: 8, name: 'Product 8', img: 'https://via.placeholder.com/150' },
-//         { id: 9, name: 'Product 9', img: 'https://via.placeholder.com/150' },
-//         { id: 10, name: 'Product 10', img: 'https://via.placeholder.com/150' },
-//     ];
+const ProductPage = () => {
+    const [product, setProduct] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-//     const categories = [
-//         { id: 1, name: 'Category 1' },
-//         { id: 2, name: 'Category 2' },
-//         { id: 3, name: 'Category 3' },
-//         { id: 4, name: 'Category 4' },
-//         { id: 5, name: 'Category 5' },
-//         { id: 6, name: 'Category 6' },
-//         { id: 7, name: 'Category 7' },
-//         { id: 8, name: 'Category 8' },
-//     ];
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/products/101'); // Replace with your endpoint
+                setProduct(response.data);
+            } catch (err) {
+                setError(err);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-//     const cheapestProducts = [
-//         { id: 1, name: 'Cheap Product 1', img: 'https://via.placeholder.com/150' },
-//         { id: 2, name: 'Cheap Product 2', img: 'https://via.placeholder.com/150' },
-//         { id: 3, name: 'Cheap Product 3', img: 'https://via.placeholder.com/150' },
-//         { id: 4, name: 'Cheap Product 4', img: 'https://via.placeholder.com/150' },
-//         { id: 5, name: 'Cheap Product 5', img: 'https://via.placeholder.com/150' },
-//         { id: 6, name: 'Cheap Product 6', img: 'https://via.placeholder.com/150' },
-//         { id: 7, name: 'Cheap Product 7', img: 'https://via.placeholder.com/150' },
-//         { id: 8, name: 'Cheap Product 8', img: 'https://via.placeholder.com/150' },
-//         { id: 9, name: 'Cheap Product 9', img: 'https://via.placeholder.com/150' },
-//         { id: 10, name: 'Cheap Product 10', img: 'https://via.placeholder.com/150' },
-//     ];
+        fetchProduct();
+    }, []);
 
-//     // Refs for scrolling
-//     const newestRef = useRef(null);
-//     const categoriesRef = useRef(null);
-//     const cheapestRef = useRef(null);
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div>Error: {error.message}</div>;
+    console.log(product.imageUrl);
+    return (
+        <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10">
+            <img
+                src={product.imageUrl} // Adjust path as needed
+                alt={product.name}
+                className="w-full h-48 object-cover"
+            />
+            <div className="p-4">
+                <h2 className="text-2xl font-bold text-gray-800">{product.name}</h2>
+                <p className="text-gray-600 mt-2">{product.description}</p>
+                <p className="text-lg font-semibold text-gray-800 mt-4">
+                    Price: ${product.price}
+                </p>
+                <p className="text-gray-600 mt-2">Stock: {product.stock}</p>
+                <p className="text-gray-600 mt-2">Category ID: {product.category_id}</p>
+                <p className="text-gray-500 text-sm mt-2">
+                    Created At: {new Date(product.created_at).toLocaleString()}
+                </p>
+                <p className="text-gray-500 text-sm">
+                    Updated At: {new Date(product.updated_at).toLocaleString()}
+                </p>
+            </div>
+        </div>
+    );
+};
 
-//     const scroll = (ref, direction) => {
-//         const scrollAmount = 300; // Change this value for more or less scroll
-//         if (ref.current) {
-//             ref.current.scrollBy({
-//                 top: 0,
-//                 left: direction === 'left' ? -scrollAmount : scrollAmount,
-//                 behavior: 'smooth',
-//             });
-//         }
-//     };
-
-//     return (
-//         <div className="container mx-auto p-4">
-//             <h2 className="text-2xl font-bold mb-4">Newest Products</h2>
-//             <div className="flex items-center space-x-2">
-//                 <button onClick={() => scroll(newestRef, 'left')} className="bg-gray-300 p-2 rounded">←</button>
-//                 <div ref={newestRef} className="flex overflow-x-scroll space-x-4 scrollbar-hide">
-//                     {newestProducts.map(product => (
-//                         <div key={product.id} className="min-w-[150px] bg-white rounded shadow p-2">
-//                             <img src={product.img} alt={product.name} className="w-full h-32 object-cover rounded" />
-//                             <h3 className="text-center">{product.name}</h3>
-//                         </div>
-//                     ))}
-//                 </div>
-//                 <button onClick={() => scroll(newestRef, 'right')} className="bg-gray-300 p-2 rounded">→</button>
-//             </div>
-
-//             <h2 className="text-2xl font-bold mb-4 mt-8">Categories</h2>
-//             <div className="flex items-center space-x-2">
-//                 <button onClick={() => scroll(categoriesRef, 'left')} className="bg-gray-300 p-2 rounded">←</button>
-//                 <div ref={categoriesRef} className="flex overflow-x-scroll space-x-4 scrollbar-hide">
-//                     {categories.map(category => (
-//                         <div key={category.id} className="min-w-[100px] bg-white rounded shadow p-2">
-//                             <h3 className="text-center">{category.name}</h3>
-//                         </div>
-//                     ))}
-//                 </div>
-//                 <button onClick={() => scroll(categoriesRef, 'right')} className="bg-gray-300 p-2 rounded">→</button>
-//             </div>
-
-//             <h2 className="text-2xl font-bold mb-4 mt-8">Cheapest Products</h2>
-//             <div className="flex items-center space-x-2">
-//                 <button onClick={() => scroll(cheapestRef, 'left')} className="bg-gray-300 p-2 rounded">←</button>
-//                 <div ref={cheapestRef} className="flex overflow-x-scroll space-x-4 scrollbar-hide">
-//                     {cheapestProducts.map(product => (
-//                         <div key={product.id} className="min-w-[150px] bg-white rounded shadow p-2">
-//                             <img src={product.img} alt={product.name} className="w-full h-32 object-cover rounded" />
-//                             <h3 className="text-center">{product.name}</h3>
-//                         </div>
-//                     ))}
-//                 </div>
-//                 <button onClick={() => scroll(cheapestRef, 'right')} className="bg-gray-300 p-2 rounded">→</button>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Homepage;
+export default ProductPage;
