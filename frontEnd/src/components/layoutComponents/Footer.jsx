@@ -1,25 +1,27 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope } from '@fortawesome/free-solid-svg-icons'; 
-import { faFacebook, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons'; 
+
+import { FaFacebook } from "react-icons/fa";
+import { IoIosMail  } from "react-icons/io";
 import { Link } from 'react-router-dom';
+import { RiInstagramFill } from "react-icons/ri";
+import { IoLogoWhatsapp } from "react-icons/io";
 
 const Footer = () => {
     return (
         <footer className="bg-gray-800 text-white p-4">
             {/* Social Icons */}
-            <div className="flex justify-center space-x-6 mb-4">
-                <a href="mailto:example@example.com?subject=Subject&body=Body" className="hover:text-blue-400">
-                    <FontAwesomeIcon icon={faEnvelope} size="2x" />
+            <div className="flex items-center justify-center space-x-6 mb-4">
+                <a href="mailto:example@example.com?subject=Subject&body=Body" >
+                <IoIosMail className='text-white text-4xl hover:text-red-400'/>
                 </a>
-                <a href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600">
-                    <FontAwesomeIcon icon={faFacebook} size="2x" />
+                <a href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer" >
+                <FaFacebook className='text-white text-3xl hover:text-blue-600'  />
                 </a>
-                <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500">
-                    <FontAwesomeIcon icon={faInstagram} size="2x" />
+                <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer">
+                <RiInstagramFill className='text-white text-3xl hover:text-pink-500'  />
                 </a>
-                <a href="https://wa.me/yourphonenumber" target="_blank" rel="noopener noreferrer" className="hover:text-green-500">
-                    <FontAwesomeIcon icon={faWhatsapp} size="2x" />
+                <a href="https://wa.me/yourphonenumber" target="_blank" rel="noopener noreferrer" >
+                <IoLogoWhatsapp className='text-white text-3xl hover:text-green-500'  />
                 </a>
             </div>
 
