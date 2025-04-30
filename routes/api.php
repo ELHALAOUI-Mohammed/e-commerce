@@ -19,6 +19,8 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::post('/products', [ProductController::class, 'store']);
 Route::put('/products/{id}', [ProductController::class, 'update']);
 Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+Route::get('/filtered-products', [ProductController::class, 'filtered']);
+
 
 
 
@@ -49,6 +51,7 @@ Route::post('/orders/cancel/{id}', [OrderController::class, 'cancel']);
 Route::get('/favorites/{userId}', [FavoriteController::class, 'index']);
 Route::post('/favorites', [FavoriteController::class, 'store']);
 Route::delete('/favorites', [FavoriteController::class, 'destroy']);
+
 
 
 // images

@@ -28,7 +28,7 @@ const ProductPage = () => {
     return (
         <div className="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden mt-10">
             <img
-                src={product.imageUrl} // Adjust path as needed
+                src="x`/image.png" // Adjust path as needed
                 alt={product.name}
                 className="w-full h-48 object-cover"
             />

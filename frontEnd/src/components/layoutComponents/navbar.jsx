@@ -1,8 +1,18 @@
-import { faShoppingCart, faHeart } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
+import { FaCartShopping } from "react-icons/fa6";
+import { FaHeart } from "react-icons/fa";
+import {
+    Dialog,
+    DialogContent,
+    DialogTrigger,
+  } from "@/components/ui/dialog"
+import ShoppingCart from '../PublicConponents/ShoppingCart';
+  
+
+
 
 
 export default function NavBar() {
@@ -50,14 +60,19 @@ export default function NavBar() {
                     </li>
                 ))}
                   <li>
-                      <Link to="/favorites" className="hover:text-gray-300 flex items-center">
-                          <FontAwesomeIcon icon={faHeart} className="h-5 w-5 mr-1" />
+                      <Link to="/favorites" >
+                          <FaHeart  className="h-5 w-5 mr-1  hover:text-gray-300 " />
                       </Link>
                   </li>
                 <li>
-                    <Link to="/cart" className="hover:text-gray-300 flex items-center">
-                        <FontAwesomeIcon icon={faShoppingCart} className="h-5 w-5" />
-                    </Link>
+                    
+                                    <Dialog>
+                                <DialogTrigger ><FaCartShopping  className="h-5 w-5 mt-1.5 hover:text-gray-300  " /></DialogTrigger>
+                                <DialogContent>
+                                <ShoppingCart/>
+                                         </DialogContent>
+                                            </Dialog>
+
                 </li>
 
                 

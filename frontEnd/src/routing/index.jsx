@@ -8,6 +8,7 @@ import ProductPage from "@/pages/public/Test";
 import ProductForm from "@/pages/admin/productForm";
 import ProductsPage from "@/pages/public/ProductsPage";
 import CategoriesPage from "@/pages/public/CategoriesPage";
+import FavoritesPage from "@/pages/client/FavoritesPage";
 
 
 
@@ -44,11 +45,22 @@ export const router = createBrowserRouter ([
             path: '/login',
             element: <LoginPage/>
         },
+        {
+            path: '/favorites',
+            element: <FavoritesPage/>
+        },
+        {
+            path : `/product/:id` ,
+            element :<ProductDetails />
+
+        },
+        
     ]
 },
 {
     path: '/pform',
     element: <ProductForm/>
 },
+
 
 ])

@@ -1,14 +1,15 @@
 // Homepage.jsx
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import CarouselHome from '../../components/CarouselHome'; // Adjust the path as necessary
-import ImageDisplay from '../../components/ImageDisplay';
+import CarouselHome from '../../components/PublicConponents/CarouselHome'; // Adjust the path as necessary
+import ImageDisplay from '../../components/PublicConponents/ImageDisplay';
+import Hero from '@/components/PublicConponents/Hero';
 
 const Homepage = () => {
     const [newestProducts, setNewestProducts] = useState([]);
     const [cheapestProducts, setCheapestProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -40,6 +41,7 @@ const Homepage = () => {
 
     return (
         <div>
+            <Hero/>
             
             <CarouselHome 
                 title="Newest Products" 

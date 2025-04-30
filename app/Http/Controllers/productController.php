@@ -49,4 +49,30 @@ class ProductController extends Controller
 
         return response()->json($cheapestProducts);
     }
+
+    
+    public function filtered(Request $request)
+{
+    $query = Product::query();
+
+    if ($request->has('category_id')) {
+        $query->where('category_id', $request->category_id);
+    }
+
+    if ($request->has('search')) {
+        $query->where('name', 'like', '%' . $request->search . '%');
+    }
+
+    if ($request->has('sort')) {
+        if ($request->sort === 'price') {
+            $query->orderBy('price');
+        } elseif ($request->sort === 'date') {
+            $query->orderBy('created_at', 'desc');
+        }
+    }
+
+    $products = $query->paginate(6); // Adjust per-page count as needed
+
+    return response()->json($products);
+}
 }
