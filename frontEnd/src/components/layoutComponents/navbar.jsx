@@ -42,7 +42,7 @@ export default function NavBar() {
     return (
         <nav className="flex justify-between items-center bg-white p-4 text-black">
             <Link to="/">
-                <img src="image.png" className="h-10 w-auto mx-4" alt="Logo" />
+                <img src="/image.png" className="h-10 w-auto mx-4" alt="Logo" />
             </Link>
 
             <ul className="flex space-x-4 items-center">

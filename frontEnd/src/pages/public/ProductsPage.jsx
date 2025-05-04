@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Cardd from "@/components/PublicConponents/Cardd";
-import SearchBar from "@/components/PublicConponents/SearchBar";
-import SortBy from "@/components/PublicConponents/SortBy";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+// import Cardd from "@/publicComponents/Cardd";
+// import SearchBar from "@/publicComponents/SearchBar";
+// import SortBy from "@/publicComponents/SortBy";
+import { useAuth } from "@/context/AuthContext";
 import {
   Pagination,
   PaginationContent,
@@ -18,35 +13,48 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { MdClear } from "react-icons/md";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import SearchBar from "@/components/PublicConponents/SearchBar";
+import SortBy from "@/components/PublicConponents/SortBy";
+import Cardd from "@/components/PublicConponents/Cardd";
+
+const API_BASE = "http://localhost:8000";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState();
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
   // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const categoriesResponse = await axios.get("http://localhost:8000/api/categories");
-        setCategories(categoriesResponse.data);
+        const { data } = await axios.get(`${API_BASE}/api/categories`);
+        setCategories(data);
       } catch (error) {
         console.error("Error fetching categories:", error);
       }
     };
-
     fetchCategories();
   }, []);
 
-  // Fetch filtered products with pagination
+  // Fetch products
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       try {
-        const response = await axios.get("http://localhost:8000/api/filtered-products", {
+        const { data } = await axios.get(`${API_BASE}/api/filtered-products`, {
           params: {
             page: currentPage,
             category_id: selectedCategory,
@@ -54,15 +62,16 @@ export default function ProductsPage() {
             sort: sortBy,
           },
         });
-
-        setProducts(response.data.data);
-        setLastPage(response.data.last_page);
+        setProducts(data.data);
+        setLastPage(data.last_page);
       } catch (error) {
         console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
       }
     };
-
-    fetchProducts();
+    const debounceTimer = setTimeout(fetchProducts, 300);
+    return () => clearTimeout(debounceTimer);
   }, [currentPage, selectedCategory, query, sortBy]);
 
   return (
@@ -81,7 +90,7 @@ export default function ProductsPage() {
               key={cat.id}
               onClick={() => {
                 setSelectedCategory(cat.id);
-                setCurrentPage(1); // reset page
+                setCurrentPage(1);
               }}
               className={`flex flex-col items-center p-3 border rounded-3xl cursor-pointer min-w-[80px] ${
                 selectedCategory === cat.id ? "bg-gray-200" : "bg-white"
@@ -99,7 +108,7 @@ export default function ProductsPage() {
                 <TooltipTrigger>
                   <button
                     onClick={() => {
-                      setSelectedCategory("");
+                      setSelectedCategory(null);
                       setCurrentPage(1);
                     }}
                   >
@@ -121,9 +130,18 @@ export default function ProductsPage() {
       </div>
 
       {/* Products */}
-      <Cardd products={products} />
+      {products && products.length > 0 ? (
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {products.map((product) => (
+      <Cardd key={product?.id} product={product} />
+    ))}
+  </div>
+) : (
+  <>
+  <div className="text-center py-12">
+    <p className="text-lg">No products available</p>
+  </div>
 
-      {/* Pagination */}
       <div className="flex justify-center mt-8">
         <Pagination>
           <PaginationContent>
@@ -152,6 +170,7 @@ export default function ProductsPage() {
           </PaginationContent>
         </Pagination>
       </div>
-    </div>
-  );
+      </> 
+      )
 }
+      </div>  )} 

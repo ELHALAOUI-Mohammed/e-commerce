@@ -1,102 +1,74 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"; // ✅ Use from react-router-dom
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Heart, ShoppingCart } from "lucide-react";
 
-export default function ProductDetails() {
-  const { id: productId } = useParams(); // ✅ Access route param directly
-
+export default function ProductsDetails() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [product, setProduct] = useState(null);
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProduct = async () => {
+      setLoading(true);
       try {
-        const [productRes, categoryRes] = await Promise.all([
-          fetch(`http://localhost:8000/api/products/${productId}`),
-          fetch("http://localhost:8000/api/categories"),
-        ]);
-
-        const productData = await productRes.json();
-        const categoriesData = await categoryRes.json();
-
-        setProduct(productData);
-        setCategories(categoriesData);
-        setLoading(false);
-      } catch (err) {
-        console.error("Error fetching data:", err);
+        const { data } = await axios.get(`http://localhost:8000/api/products/${id}`);
+        setProduct(data);
+      } catch (error) {
+        setNotification({ type: "error", message: "Failed to load product" });
+        navigate("/products");
+      } finally {
         setLoading(false);
       }
     };
-
-    if (productId) fetchData();
-  }, [productId]);
+    fetchProduct();
+  }, [id, navigate]);
 
   const handleAddToCart = async () => {
-    alert("Added to cart!");
-  };
-
-  const handleAddToFavorites = async () => {
+    if (!user) {
+      navigate("/login", { state: { from: `/product/${id}` } });
+      return;
+    }
     try {
-      const res = await fetch("http://localhost:8000/api/favorites", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ product_id: product.id, user_id: 1 }),
-      });
-
-      if (!res.ok) throw new Error("Failed to add favorite");
-      alert("Added to favorites!");
-    } catch (err) {
-      console.error(err);
+      await axios.post("/api/cart/add", { user_id: user.id, product_id: id });
+      setNotification({ type: "success", message: "Added to cart!" });
+    } catch (error) {
+      setNotification({ type: "error", message: "Failed to add to cart" });
     }
   };
 
-  const getCategoryName = () => {
-    const category = categories.find((cat) => cat.id === product?.category_id);
-    return category ? category.name : "Unknown";
-  };
-
-  if (loading) return <div className="p-4 text-center">Loading...</div>;
-  if (!product) return <div className="p-4 text-center">Product not found.</div>;
-
   return (
-    <div className="p-6 max-w-3xl mx-auto">
-      <Card>
-        <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <img
-            src={product.imageUrl}
-            alt={product.name}
-            className="rounded-2xl object-cover w-full"
-        />
+    <div className="p-6 max-w-7xl mx-auto">
+      {notification && (
+        <div className={`p-3 mb-4 rounded ${
+          notification.type === "error" ? "bg-red-100 text-red-800" : "bg-green-100 text-green-800"
+        }`}>
+          {notification.message}
+        </div>
+      )}
 
-
-          <div className="space-y-4">
-            <h2 className="text-2xl font-bold">{product.name}</h2>
-            <p className="text-muted-foreground">Category: {getCategoryName()}</p>
-            <p className="text-xl font-semibold text-green-600">${product.price}</p>
-            <p className="text-sm text-gray-600">{product.description}</p>
-            <p className="font-medium">
-              Stock:{" "}
-              {product.stock > 0 ? (
-                <span className="text-green-600">In Stock</span>
-              ) : (
-                <span className="text-red-600">Out of Stock</span>
-              )}
-            </p>
-
-            <div className="flex gap-4 pt-4">
-              <Button onClick={handleAddToCart}>
-                <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
-              </Button>
-              <Button variant="outline" onClick={handleAddToFavorites}>
-                <Heart className="mr-2 h-4 w-4" /> Favorite
-              </Button>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {/* Rest of your component remains the same */}
+      <div className="max-w-sm w-full bg-white rounded-lg shadow-md overflow-hidden transition-transform transform hover:scale-105">
+      {product?.imageUrl ? (
+        <img className="w-full h-64 object-cover" src={product?.imageUrl} alt={product?.name} />
+      ) : (
+        <div className="w-full h-64 bg-gray-200 flex items-center justify-center">
+          <span>No Image Available</span>
+        </div>
+      )}
+      <div className="p-4">
+        <h2 className="text-xl font-bold text-gray-800">{product?.name}</h2>
+        <p className="text-gray-600 mt-2">{product?.description}</p>
+        <div className="flex justify-between items-center mt-4">
+          <span className="text-lg font-semibold text-gray-900">${product?.price.toFixed(2)}</span>
+          <span className="text-sm text-gray-600">Stock: {product?.stock}</span>
+        </div>
+      </div>
+    </div>
     </div>
   );
 }
