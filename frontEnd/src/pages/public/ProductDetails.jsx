@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
+import axiosClient from "@/api/axiosClient";
 
 export default function ProductsDetails() {
   const { id } = useParams();
@@ -16,7 +17,7 @@ export default function ProductsDetails() {
     const fetchProduct = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get(`http://localhost:8000/api/products/${id}`);
+        const { data } = await axiosClient.get(`products/${id}`);
         setProduct(data);
       } catch (error) {
         setNotification({ type: "error", message: "Failed to load product" });
@@ -34,7 +35,7 @@ export default function ProductsDetails() {
       return;
     }
     try {
-      await axios.post("/api/cart/add", { user_id: user.id, product_id: id });
+      await axiosClient.post("/api/cart/add", { user_id: user.id, product_id: id });
       setNotification({ type: "success", message: "Added to cart!" });
     } catch (error) {
       setNotification({ type: "error", message: "Failed to add to cart" });

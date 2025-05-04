@@ -22,8 +22,7 @@ import {
 import SearchBar from "@/components/PublicConponents/SearchBar";
 import SortBy from "@/components/PublicConponents/SortBy";
 import Cardd from "@/components/PublicConponents/Cardd";
-
-const API_BASE = "http://localhost:8000";
+import axiosClient from "@/api/axiosClient";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -40,7 +39,7 @@ export default function ProductsPage() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axios.get(`${API_BASE}/api/categories`);
+        const { data } = await axiosClient.get(`/categories`);
         setCategories(data);
       } catch (error) {
         console.error("Error fetching categories:", error);
@@ -54,7 +53,7 @@ export default function ProductsPage() {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get(`${API_BASE}/api/filtered-products`, {
+        const { data } = await axiosClient.get(`/filtered-products`, {
           params: {
             page: currentPage,
             category_id: selectedCategory,

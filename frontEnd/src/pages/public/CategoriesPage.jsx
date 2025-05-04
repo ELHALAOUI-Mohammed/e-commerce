@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import CategoryCard from "@/components/PublicConponents/CategoryCard";
 import { Skeleton } from "@/components/ui/skeleton";
+import axiosClient from "@/api/axiosClient";
 
 export default function CategoryPage() {
   const [categories, setCategories] = useState([]);
@@ -12,8 +12,8 @@ export default function CategoryPage() {
     const fetchData = async () => {
       try {
         const [productsResponse, categoriesResponse] = await Promise.all([
-          axios.get("http://localhost:8000/api/products"),
-          axios.get("http://localhost:8000/api/categories"),
+          axiosClient.get("/products"),
+          axiosClient.get("/categories"),
         ]);
 
         setProducts(productsResponse.data);

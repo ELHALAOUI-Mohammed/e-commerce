@@ -8,7 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\AuthController;
  
 // Products
 Route::get('/products', [ProductController::class, 'index']);
@@ -22,9 +22,18 @@ Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 Route::get('/filtered-products', [ProductController::class, 'filtered']);   
 
 
+// User
+
+Route::get('/users' ,[UserController::class, 'index']);
+
+// Auth
 
 
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login',    [AuthController::class, 'login']);
+Route::post('/logout',   [AuthController::class, 'logout'])->middleware('auth:sanctum');
 
+// Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
 
 

@@ -1,9 +1,9 @@
 // Homepage.jsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import CarouselHome from '../../components/PublicConponents/CarouselHome'; // Adjust the path as necessary
 import ImageDisplay from '../../components/PublicConponents/ImageDisplay';
 import Hero from '@/components/PublicConponents/Hero';
+import axiosClient from '@/api/axiosClient';
 
 const Homepage = () => {
     const [newestProducts, setNewestProducts] = useState([]);
@@ -14,9 +14,9 @@ const Homepage = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const newestResponse = await axios.get('http://localhost:8000/api/products/newest');
-                const cheapestResponse = await axios.get('http://localhost:8000/api/products/cheapest');
-                const response = await axios.get('http://localhost:8000/api/categories/top');
+                const newestResponse = await axiosClient.get('/products/newest');
+                const cheapestResponse = await axiosClient.get('/products/cheapest');
+                const response = await axiosClient.get('/categories/top');
                 
                 setCategories(response.data);
                 setNewestProducts(newestResponse.data);

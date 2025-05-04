@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
+import axiosClient from "@/api/axiosClient";
 
 export default function ShoppingCart() {
   const { user } = useAuth();
@@ -14,7 +14,7 @@ export default function ShoppingCart() {
       if (!user) return;
       setLoading(true);
       try {
-        const { data } = await axios.get(`http://localhost:8000/api/cart/${user.id}`);
+        const { data } = await axiosClient.get(`/cart/${user.id}`);
         setCartItems(data);
       } catch (error) {
         setNotification({ type: "error", message: "Failed to load cart" });
@@ -27,7 +27,7 @@ export default function ShoppingCart() {
 
   const updateQuantity = async (productId, newQuantity) => {
     try {
-      await axios.put(`/api/cart/${user.id}`, { 
+      await axiosClient.put(`/api/cart/${user.id}`, { 
         product_id: productId, 
         quantity: newQuantity 
       });
