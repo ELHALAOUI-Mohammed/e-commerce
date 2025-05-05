@@ -71,7 +71,7 @@ class ProductController extends Controller
         }
     }
 
-    $products = $query->paginate(6); // Adjust per-page count as needed
+    $products = $query->paginate(10); // Adjust per-page count as needed
 
     return response()->json($products);
 }

@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-// import Cardd from "@/publicComponents/Cardd";
-// import SearchBar from "@/publicComponents/SearchBar";
-// import SortBy from "@/publicComponents/SortBy";
+import axiosClient from "@/api/axiosClient";
 import { useAuth } from "@/context/AuthContext";
 import {
   Pagination,
@@ -22,7 +19,8 @@ import {
 import SearchBar from "@/components/PublicConponents/SearchBar";
 import SortBy from "@/components/PublicConponents/SortBy";
 import Cardd from "@/components/PublicConponents/Cardd";
-import axiosClient from "@/api/axiosClient";
+import LoadingScreen from "@/components/LoadingComponents/Loading";
+import { ProductLoading } from "@/components/LoadingComponents/ProductLoading";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
@@ -69,6 +67,7 @@ export default function ProductsPage() {
         setLoading(false);
       }
     };
+
     const debounceTimer = setTimeout(fetchProducts, 300);
     return () => clearTimeout(debounceTimer);
   }, [currentPage, selectedCategory, query, sortBy]);
@@ -128,48 +127,55 @@ export default function ProductsPage() {
         <SortBy setSortBy={setSortBy} />
       </div>
 
-      {/* Products */}
-      {products && products.length > 0 ? (
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    {products.map((product) => (
-      <Cardd key={product?.id} product={product} />
-    ))}
-  </div>
-) : (
-  <>
-  <div className="text-center py-12">
-    <p className="text-lg">No products available</p>
-  </div>
-
-      <div className="flex justify-center mt-8">
-        <Pagination>
-          <PaginationContent>
-            {currentPage > 1 && (
-              <PaginationItem>
-                <PaginationPrevious onClick={() => setCurrentPage(currentPage - 1)} />
-              </PaginationItem>
-            )}
-
-            {Array.from({ length: lastPage }, (_, i) => (
-              <PaginationItem key={i}>
-                <PaginationLink
-                  isActive={currentPage === i + 1}
-                  onClick={() => setCurrentPage(i + 1)}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
+      {/* Loading state */}
+      {loading ? (
+        <ProductLoading/>
+      ) : products.length > 0 ? (
+        <>
+          {/* Product Grid */}
+          <div className="min-h-screen">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
+            {products.map((product) => (
+              <Cardd key={product?.id} product={product} />
             ))}
+          </div>
+          </div>
 
-            {currentPage < lastPage && (
-              <PaginationItem>
-                <PaginationNext onClick={() => setCurrentPage(currentPage + 1)} />
-              </PaginationItem>
-            )}
-          </PaginationContent>
-        </Pagination>
-      </div>
-      </> 
-      )
+          {/* Pagination */}
+          <div className="flex justify-center mt-8">
+            <Pagination>
+              <PaginationContent>
+                {currentPage > 1 && (
+                  <PaginationItem>
+                    <PaginationPrevious onClick={() => setCurrentPage(currentPage - 1)} />
+                  </PaginationItem>
+                )}
+
+                {Array.from({ length: lastPage }, (_, i) => (
+                  <PaginationItem key={i}>
+                    <PaginationLink
+                      isActive={currentPage === i + 1}
+                      onClick={() => setCurrentPage(i + 1)}
+                    >
+                      {i + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+
+                {currentPage < lastPage && (
+                  <PaginationItem>
+                    <PaginationNext onClick={() => setCurrentPage(currentPage + 1)} />
+                  </PaginationItem>
+                )}
+              </PaginationContent>
+            </Pagination>
+          </div>
+        </>
+      ) : (
+        <div className="text-center py-12">
+          <p className="text-lg">No products available</p>
+        </div>
+      )}
+    </div>
+  );
 }
-      </div>  )} 

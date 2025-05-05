@@ -14,10 +14,11 @@ const Homepage = () => {
     useEffect(() => {
         const fetchProducts = async () => {
             try {
+                setLoading(true);
                 const newestResponse = await axiosClient.get('/products/newest');
                 const cheapestResponse = await axiosClient.get('/products/cheapest');
                 const response = await axiosClient.get('/categories/top');
-                
+
                 setCategories(response.data);
                 setNewestProducts(newestResponse.data);
                 setCheapestProducts(cheapestResponse.data);
@@ -31,13 +32,13 @@ const Homepage = () => {
         fetchProducts();
     }, []);
 
-    if (loading) {
-        return (
-            <div className="flex justify-center items-center h-screen">
-                <div className="text-lg font-semibold">Loading...</div>
-            </div>
-        );
-    }
+    // if (loading) {
+    //     return (
+    //         <div className="flex justify-center items-center h-screen">
+    //             <div className="text-lg font-semibold">Loading...</div>
+    //         </div>
+    //     );
+    // }
 
     return (
         <div>
@@ -47,14 +48,17 @@ const Homepage = () => {
                 title="Newest Products" 
                 items={newestProducts} 
                 
-            />
+                loading={loading}
+                />
             <CarouselHome 
                 title="Categories" 
                 items={categories} 
-            />
+                loading={loading}
+                />
             <CarouselHome 
                 title="Cheapest Products" 
                 items={cheapestProducts} 
+                loading={loading}
             />
         </div>
     );
