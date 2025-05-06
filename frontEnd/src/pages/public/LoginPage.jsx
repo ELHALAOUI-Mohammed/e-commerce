@@ -1,16 +1,34 @@
+import axiosClient from "@/api/axiosClient";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+// import axiosClient from "../axiosClient"; // adjust path as needed
 
 export default function LoginPage() {
+  const navigate = useNavigate()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log("Logging in with:", data);
-    // Add your authentication logic here
+  const onSubmit = async (data) => {
+    try {
+      const res = await axiosClient.post("/login", data); // Adjust endpoint if needed
+      // Optionally redirect or update auth context here
+      if (res.data.user.role === 'admin'){
+        
+        navigate('/admin/dashboard')
+
+      }
+      else{
+        navigate('/')
+      }
+      
+    } catch (error) {
+      console.error(error);
+      alert("Login failed. Please check your credentials.");
+    }
   };
 
   return (
