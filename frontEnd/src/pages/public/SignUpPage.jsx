@@ -1,4 +1,5 @@
 import axiosClient from "@/api/axiosClient";
+import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -27,7 +28,14 @@ export default function SignupPage() {
 
   const onSubmit = async(data) => {
     console.log("Registering user:", data);
+
     try{
+        // await axios.get('http://localhost:8000/sanctum/csrf-cookie',
+        //   {
+        //     withCredentials: true ,
+        //   },
+        // )
+        
         await axiosClient.post(`/register` , data)
     }
     catch(err){

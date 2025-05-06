@@ -62,6 +62,6 @@ export const router = createBrowserRouter([
   },
   {
     path: '/pform',
-    element: <ProtectedRoute adminOnly><ProductForm /></ProtectedRoute>,
+    element: <ProductForm />
   },
 ]);
