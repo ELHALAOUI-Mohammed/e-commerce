@@ -39,6 +39,7 @@ Route::post('/logout',   [AuthController::class, 'logout'])->middleware('auth:sa
 
 // Categories
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/categories/{id}', [CategoryController::class, 'show']);
 Route::get('/categories/top', [CategoryController::class, 'topCategories']);
 
 Route::post('/categories', [CategoryController::class, 'store']);

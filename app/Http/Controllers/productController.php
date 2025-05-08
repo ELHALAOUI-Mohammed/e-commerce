@@ -12,22 +12,49 @@ class ProductController extends Controller
         return Product::with('category')->get();
     }
 
-    public function store(Request $request) {
-        $request->validate([
-            'name' => 'required', 'price' => 'required', 'stock' => 'required', 'category_id' => 'required'
-        ]);
-        return Product::create($request->all());
+    public function store(Request $request)
+{
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'price' => 'required|numeric',
+        'stock' => 'required|integer',
+        'category_id' => 'required|exists:categories,id',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+    ]);
+
+    if ($request->hasFile('image')) {
+        $path = $request->file('image')->store('products', 'public');
+        $validated['imageUrl'] = '/storage/' . $path;
     }
 
-    public function show($id) {
-        return Product::findOrFail($id);
-    }
+    $product = Product::create($validated);
 
-    public function update(Request $request, $id) {
-        $product = Product::findOrFail($id);
-        $product->update($request->all());
-        return $product;
-    }
+    return response()->json($product, 201);
+}
+
+
+public function show($id){
+    $category = Category::findOrFail($id);
+    return response()->json($category);
+}
+
+public function update(Request $request, $id)
+{
+    $validated = $request->validate([
+        'name' => 'required|string',
+        'price' => 'required|numeric',
+        'stock' => 'required|integer',
+        'category_id' => 'required|exists:categories,id',
+    ]);
+
+    $product = Product::findOrFail($id);
+    $product->update($validated);
+
+    return response()->json($product);
+}
+
+
 
     public function destroy($id) {
         Product::findOrFail($id)->delete();

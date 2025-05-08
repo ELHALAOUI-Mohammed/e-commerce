@@ -3,43 +3,91 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Category ;
-
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
+    /**
+     * Display a listing of all categories.
+     */
     public function index() {
-        return Category::all();
+
+        $categories = Category::withCount('products')->get();
+
+        return response()->json($categories);
     }
 
+    public function show($id){
+
+        $product = Product::with('category')->findOrFail($id);
+    return response()->json($product);
+    }
+
+    /**
+     * Store a newly created category in storage.
+     */
     public function store(Request $request) {
-        $request->validate(['name' => 'required']);
-        return Category::create($request->all());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string|max:500', // Optional description
+        ]);
+
+        $category = Category::create($request->all());
+        return response()->json($category, 201);
     }
 
+    /**
+     * Update the specified category in storage.
+     */
     public function update(Request $request, $id) {
         $category = Category::findOrFail($id);
+
+        $request->validate([
+            'name' => 'sometimes|required|string|max:255',
+            'description' => 'nullable|string|max:500',
+        ]);
+
         $category->update($request->all());
-        return $category;
+        return response()->json($category);
     }
 
+    /**
+     * Remove the specified category from storage.
+     */
     public function destroy($id) {
-        Category::findOrFail($id)->delete();
+        $category = Category::findOrFail($id);
+        
+        // Optionally, you could check if there are products in this category
+        if ($category->product_count > 0) {
+            return response()->json(['message' => 'Category cannot be deleted because it has associated products'], 400);
+        }
+
+        $category->delete();
         return response()->json(['message' => 'Category deleted']);
     }
 
-    public function tenCategories()
-    {
-   
-        $cheapestProducts = Product::all()->take(10)->get();
-
-        return response()->json($cheapestProducts);
-    }
+    /**
+     * Get the top 10 categories by product count.
+     */
     public function topCategories()
     {
-        // Fetch the 10 categories (adjust as needed)
-        $categories = Category::take(10)->get(); // Fetch the first 10 categories
+        // Fetch the top 10 categories ordered by the count of related products
+        $categories = Category::withCount('products') // Assuming you have a relationship defined
+            ->orderBy('products_count', 'desc')
+            ->take(10)
+            ->get();
+    
+        return response()->json($categories);
+    }
+    
 
+    /**
+     * Get 10 categories (adjust as needed).
+     */
+    public function tenCategories()
+    {
+        // Fetch the first 10 categories
+        $categories = Category::take(10)->get();
         return response()->json($categories);
     }
 }

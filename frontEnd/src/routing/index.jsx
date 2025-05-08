@@ -19,6 +19,9 @@ import UsersTable from "@/components/AdmineComponents/UsersTable";
 import CategoriesTable from "@/components/AdmineComponents/CategoriesTable";
 import ProductsTable from "@/components/AdmineComponents/ProductsTable";
 import CategoryForm from "@/components/AdmineComponents/CategoryForm";
+import EditCategory from "@/components/AdmineComponents/EditCategory";
+import EditProduct from "@/components/AdmineComponents/EditProduct";
+// import EditProduct from "@/components/AdmineComponents/EditProduct";
 
 export const router = createBrowserRouter([
   {
@@ -93,7 +96,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/admin/products/edit/:id',
-        element: <ProductForm />
+        element: <EditProduct />
       },
       {
         path: '/admin/categories',
@@ -105,7 +108,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/admin/categories/edit/:id',
-        element: <CategoryForm />
+        element: <EditCategory />
       },      
       {
         path: '/admin/users',

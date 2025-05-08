@@ -57,7 +57,7 @@ export default function CategoryPage() {
               <CategoryCard
                 key={category.id}
                 category={category}
-                productCount={categoryProducts.length}
+                productCount={category.products_count}
                 imageUrl={firstImage}
               />
             );
