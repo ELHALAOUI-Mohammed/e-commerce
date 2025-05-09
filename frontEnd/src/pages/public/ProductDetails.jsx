@@ -120,11 +120,7 @@ export default function ProductsDetails() {
             <p className="text-4xl font-bold text-gray-900">
               ${product?.price.toFixed(2)}
             </p>
-            {product?.originalPrice && (
-              <p className="text-lg text-gray-500 line-through">
-                ${product?.originalPrice.toFixed(2)}
-              </p>
-            )}
+            
           </div>
 
           <div className="mt-6">

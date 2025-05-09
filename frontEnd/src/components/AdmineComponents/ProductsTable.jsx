@@ -101,11 +101,16 @@ export default function ProductsTable() {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="flex justify-end space-x-2">
                           <button
-                            onClick={() => navigate(`/admin/products/edit/${product.id}`)}
-                            className="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-md text-sm font-medium transition-colors duration-200"
-                          >
-                            Edit
+                                      onClick={() =>
+                                        navigate(`/admin/products/edit/${product.id}`, {
+                                          state: { product },
+                                        })
+                                      }
+                                      className="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-md text-sm font-medium transition-colors duration-200"
+                                    >
+                                      Edit
                           </button>
+
                           <button
                             onClick={() => deleteProduct(product.id)}
                             className="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1 rounded-md text-sm font-medium transition-colors duration-200"

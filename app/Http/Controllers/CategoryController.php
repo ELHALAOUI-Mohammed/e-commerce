@@ -17,11 +17,12 @@ class CategoryController extends Controller
         return response()->json($categories);
     }
 
-    public function show($id){
+    public function show($id)
+{
+    $category = Category::findOrFail($id);
+    return response()->json($category);
+}
 
-        $product = Product::with('category')->findOrFail($id);
-    return response()->json($product);
-    }
 
     /**
      * Store a newly created category in storage.
@@ -40,15 +41,22 @@ class CategoryController extends Controller
      * Update the specified category in storage.
      */
     public function update(Request $request, $id) {
+        
+        // $request->validate([
+        //     // 'name' => 'required|string|max:255',
+        //     'description' => 'nullable|string|max:500',
+        // ]);
         $category = Category::findOrFail($id);
-
-        $request->validate([
-            'name' => 'sometimes|required|string|max:255',
-            'description' => 'nullable|string|max:500',
-        ]);
-
-        $category->update($request->all());
-        return response()->json($category);
+        $category->name = $request->input('name');
+        $category->description=$request->description;
+        $category->save();
+        // $category->update($request->all());
+        return response()->json(
+            [
+        'message' => 'category updated successfully!',
+        'category'=>$category
+]
+        );
     }
 
     /**

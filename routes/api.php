@@ -38,13 +38,17 @@ Route::post('/logout',   [AuthController::class, 'logout'])->middleware('auth:sa
 
 
 // Categories
-Route::get('/categories', [CategoryController::class, 'index']);
-Route::get('/categories/{id}', [CategoryController::class, 'show']);
 Route::get('/categories/top', [CategoryController::class, 'topCategories']);
+    Route::get('/categories', [CategoryController::class, 'index']);
+    // Laravel route example
+    Route::get('/categories/{id}', [CategoryController::class, 'show']);
 
-Route::post('/categories', [CategoryController::class, 'store']);
-Route::put('/categories/{id}', [CategoryController::class, 'update']);
-Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+    Route::post('/categories', [CategoryController::class, 'store']);
+    Route::put('/categories/{id}', [CategoryController::class, 'update']);
+    Route::delete('/categories/{id}', [CategoryController::class, 'destroy']);
+
+    
+
 
 // Cart
 Route::get('/cart/{userId}', [CartController::class, 'show']);

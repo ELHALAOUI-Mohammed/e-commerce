@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
@@ -35,8 +36,8 @@ class ProductController extends Controller
 
 
 public function show($id){
-    $category = Category::findOrFail($id);
-    return response()->json($category);
+    $product = Product::findOrFail($id);
+    return response()->json($product);
 }
 
 public function update(Request $request, $id)

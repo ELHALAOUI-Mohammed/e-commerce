@@ -1,106 +1,81 @@
-import axiosClient from "@/api/axiosClient";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+import axiosClient from "@/api/axiosClient";
 
 export default function EditCategory() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-
-  const [category, setCategory] = useState({ name: "", description: "" });
-  const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false);
-
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const res = await axiosClient.get(`/categories/${id}`);
-      console.log("Category fetched:", res.data);
-      setCategory({
-        name: res.data.name || "",
-        description: res.data.description || "",
-      });
-    } catch (err) {
-      console.error("Fetch error:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { id } = useParams();  // Get category ID from the URL
+  const [formData, setFormData] = useState({
+    name: '',
+    description: ''
+  });
+  const navigate = useNavigate();  // Hook for navigation
 
   useEffect(() => {
-    fetchData();
-  }, [id]);
+    // Fetch the category details when the component mounts
+    const fetchCategory = async () => {
+      try {
+        const response = await axiosClient.get(`/categories/${id}`);
+        setFormData(response.data);  // Set the form data with the fetched category details
+      } catch (err) {
+        console.error("Error fetching category", err);
+      }
+    };
+    fetchCategory();
+  }, [id]);  // Only re-run the effect when the ID changes
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setErrors({});
-    setLoading(true);
-
-    console.log("Category to update:", category);
-
-    axiosClient
-      .put(`/categories/${id}`, category)
-      .then(() => {
-        navigate("/admin/categories");
-      })
-      .catch((err) => {
-        if (err.response && err.response.status === 422) {
-          setErrors(err.response.data.errors);
-        } else {
-          alert("Unexpected error occurred.");
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-  if (loading) {
-    return <div className="text-center">Loading...</div>;
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axiosClient.put(`/categories/${id}`, formData);  // Send the updated data
+      navigate('/admin/categories');  // Navigate back to the categories page after update
+    } catch (err) {
+      console.error("Error updating category", err);
+    }
+  };
+console.log(formData);  // Log the form data before sending it
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="space-y-4 p-6 max-w-lg mx-auto bg-white shadow rounded"
-    >
-      <h1 className="text-2xl font-bold">Edit Category</h1>
-
-      <div className="space-y-1">
-        <label className="block text-sm font-medium">Name</label>
-        <input
-          value={category.name}
-          onChange={(e) => setCategory({ ...category, name: e.target.value })}
-          placeholder="Category Name"
-          className="w-full border p-2 rounded"
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto p-4 border rounded-lg">
+      <h2 className="text-xl font-semibold mb-4">Edit Category</h2>
+      <div>
+        <Label htmlFor="name">Name</Label>
+        <Input
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          placeholder="Enter category name"
+          required
+          className="mt-1"
         />
-        {errors.name && <p className="text-red-600 text-sm">{errors.name[0]}</p>}
       </div>
-
-      <div className="space-y-1">
-        <label className="block text-sm font-medium">Description</label>
-        <textarea
-          value={category.description}
-          onChange={(e) =>
-            setCategory({ ...category, description: e.target.value })
-          }
-          placeholder="Optional description"
-          className="w-full border p-2 rounded"
-          rows={4}
+      <div>
+        <Label htmlFor="description">Description</Label>
+        <Textarea
+          id="description"
+          name="description"
+          value={formData.description}
+          onChange={handleChange}
+          placeholder="Enter category description"
+          required
+          className="mt-1"
         />
-        {errors.description && (
-          <p className="text-red-600 text-sm">{errors.description[0]}</p>
-        )}
       </div>
-
-      <button
-        type="submit"
-        disabled={loading}
-        className={`bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded ${
-          loading ? "cursor-not-allowed" : ""
-        }`}
-      >
-        {loading ? "Saving..." : "Save Changes"}
-      </button>
-  </form>
-);
+      <div className="flex justify-end space-x-2 pt-2">
+        <Button type="submit">Update</Button>
+      </div>
+    </form>
+  );
 }
