@@ -8,35 +8,94 @@ import { IoLogoWhatsapp } from "react-icons/io";
 
 const Footer = () => {
     return (
-        <footer className="bg-gray-800 text-white p-4">
-            {/* Social Icons */}
-            <div className="flex items-center justify-center space-x-6 mb-4">
-                <a href="mailto:example@example.com?subject=Subject&body=Body" >
-                <IoIosMail className='text-white text-4xl hover:text-red-400'/>
-                </a>
-                <a href="https://www.facebook.com/yourpage" target="_blank" rel="noopener noreferrer" >
-                <FaFacebook className='text-white text-3xl hover:text-blue-600'  />
-                </a>
-                <a href="https://www.instagram.com/yourprofile" target="_blank" rel="noopener noreferrer">
-                <RiInstagramFill className='text-white text-3xl hover:text-pink-500'  />
-                </a>
-                <a href="https://wa.me/yourphonenumber" target="_blank" rel="noopener noreferrer" >
-                <IoLogoWhatsapp className='text-white text-3xl hover:text-green-500'  />
-                </a>
-            </div>
+      <footer className="bg-gray-900 text-gray-300 py-12 px-4 border-t border-gray-800">
+  <div className="container mx-auto max-w-6xl">
+    {/* Social Icons */}
+    <div className="flex items-center justify-center space-x-8 mb-8">
+      <a 
+        href="mailto:example@example.com" 
+        className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors duration-300"
+        aria-label="Email us"
+      >
+        <IoIosMail className="text-2xl text-white hover:text-red-400 transition-colors duration-300" />
+      </a>
+      <a 
+        href="https://www.facebook.com/yourpage" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors duration-300"
+        aria-label="Visit our Facebook"
+      >
+        <FaFacebook className="text-2xl text-white hover:text-blue-500 transition-colors duration-300" />
+      </a>
+      <a 
+        href="https://www.instagram.com/yourprofile" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors duration-300"
+        aria-label="Visit our Instagram"
+      >
+        <RiInstagramFill className="text-2xl text-white hover:text-pink-500 transition-colors duration-300" />
+      </a>
+      <a 
+        href="https://wa.me/yourphonenumber" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="p-2 rounded-full bg-gray-800 hover:bg-gray-700 transition-colors duration-300"
+        aria-label="Chat on WhatsApp"
+      >
+        <IoLogoWhatsapp className="text-2xl text-white hover:text-green-500 transition-colors duration-300" />
+      </a>
+    </div>
 
-            {/* Navigation Links */}
-            <div className="flex justify-center space-x-6 mb-4 ">
-                <Link to="/" className="hover:border-b">Home</Link>
-                <Link to="/products" className="hover:border-b">Products</Link>
-                <Link to="/categories" className="hover:border-b">Categories</Link>
-                <Link to="/test" className="hover:border-b">Test</Link>
-            </div>
+    {/* Navigation Links */}
+    <nav className="flex flex-wrap justify-center gap-6 mb-8">
+      <Link 
+        to="/" 
+        className="text-gray-400 hover:text-white transition-colors duration-300 font-medium"
+      >
+        Home
+      </Link>
+      <Link 
+        to="/products" 
+        className="text-gray-400 hover:text-white transition-colors duration-300 font-medium"
+      >
+        Products
+      </Link>
+      <Link 
+        to="/categories" 
+        className="text-gray-400 hover:text-white transition-colors duration-300 font-medium"
+      >
+        Categories
+      </Link>
+      <Link 
+        to="/test" 
+        className="text-gray-400 hover:text-white transition-colors duration-300 font-medium"
+      >
+        Test
+      </Link>
+      <Link 
+        to="/privacy" 
+        className="text-gray-400 hover:text-white transition-colors duration-300 font-medium"
+      >
+        Privacy Policy
+      </Link>
+      <Link 
+        to="/terms" 
+        className="text-gray-400 hover:text-white transition-colors duration-300 font-medium"
+      >
+        Terms of Service
+      </Link>
+    </nav>
 
-            {/* Footer Text */}
-            <p className="text-center">© 2025 Your Company Name. All Rights Reserved .</p>
-        </footer>
+    {/* Footer Text */}
+    <div className="text-center text-gray-500 text-sm">
+      <p className="mb-2">© {new Date().getFullYear()} Your Company Name. All Rights Reserved.</p>
+      <p>Designed with ❤ for our customers</p>
+    </div>
+  </div>
+</footer>
     );
 };
 
-export default Footer;
+export  default  Footer;

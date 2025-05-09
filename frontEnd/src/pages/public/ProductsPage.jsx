@@ -21,18 +21,24 @@ import SortBy from "@/components/PublicConponents/SortBy";
 import Cardd from "@/components/PublicConponents/Cardd";
 import LoadingScreen from "@/components/LoadingComponents/Loading";
 import { ProductLoading } from "@/components/LoadingComponents/ProductLoading";
+import { useSearchParams } from "react-router-dom";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
+  
+  // Get query params
+  const URlid = searchParams.get('id');
+  const [selectedCategory, setSelectedCategory] = useState(URlid);
 
+  console.log(URlid)
   // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {

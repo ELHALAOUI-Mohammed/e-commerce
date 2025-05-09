@@ -13,39 +13,47 @@ import { HomeLoading } from '../LoadingComponents/HomeLoading';
 
 const CarouselHome = ({ title, items, loading }) => {
     return (
-      <div className="container mx-auto px-4 py-10">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">{title}</h1>
-      <Carousel opts={{ align: "start" }} className="w-full relative group">
-        <CarouselContent>
-          {!loading ? items.map(item => (
-            <CarouselItem key={item.id} className="md:basis-1/2 lg:basis-1/3">
-              <div className="p-2">
-                <Card className="shadow-lg rounded-xl overflow-hidden transition-all duration-200 hover:shadow-xl">
-                  <CardContent className="flex flex-col items-center p-5">
-                    <img
-                      src="/image.png"
-                      alt="Product Image"
-                      className="w-full h-52 object-cover mb-4 rounded-lg"
-                    />
-                    <h2 className="text-lg font-semibold text-gray-800 text-center mb-2 line-clamp-2">
-                      {item.name}
-                    </h2>
-                    {item.price && (
-                      <p className="text-gray-700 text-center text-lg font-bold">
-                        ${item.price}
-                      </p>
-                    )}
-                  </CardContent>
-                </Card>
-              </div>
-            </CarouselItem>
-          )) : <HomeLoading/>}
-        </CarouselContent>
-        <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 h-9 w-9 bg-white rounded-full shadow-md border border-gray-200 hover:bg-gray-50" />
-        <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9 bg-white rounded-full shadow-md border border-gray-200 hover:bg-gray-50" />
-      </Carousel>
-    </div>
+ <div className="container mx-auto px-4 py-12">
+  <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">{title}</h1>
+  <Carousel 
+    opts={{ align: "start" }} 
+    className="w-full relative group"
+  >
+    <CarouselContent className="-ml-1">
+      {!loading ? items.map(item => (
+        <CarouselItem 
+          key={item.id} 
+          className="pl-1 md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
+        >
+          <div className="p-1">
+            <Card className="shadow-sm dark:shadow-none rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-md dark:hover:bg-gray-800/50 border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700">
+              <CardContent className="flex flex-col items-center p-6">
+                <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-xl bg-gray-50 dark:bg-gray-800">
+                  <img
+                    src="/image.png"
+                    alt="Product Image"
+                    className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
+                  />
+                </div>
+                <h2 className="text-lg font-semibold text-gray-900 dark:text-white text-center mb-2 line-clamp-2">
+                  {item.name}
+                </h2>
+                {item.price && (
+                  <p className="text-gray-900 dark:text-white text-center text-lg font-bold">
+                    ${item.price}
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </CarouselItem>
+      )) : <HomeLoading/>}
+    </CarouselContent>
+    <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hidden group-hover:flex" />
+    <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hidden group-hover:flex" />
+  </Carousel>
+</div>
     );
 };
 
-export default CarouselHome;
+export default CarouselHome;

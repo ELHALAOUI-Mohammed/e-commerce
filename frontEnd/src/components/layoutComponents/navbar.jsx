@@ -1,94 +1,162 @@
-
-import React from 'react';
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Button } from "@/components/ui/button";
+import { 
+  FaHeart,
+  FaBars,
+  FaTimes,
+  FaHome,
+//   FaBoxes,
+  FaListAlt
+} from 'react-icons/fa';
 import { FaCartShopping } from "react-icons/fa6";
-import { FaHeart } from "react-icons/fa";
-import {
-    Dialog,
-    DialogContent,
-    DialogTrigger,
-  } from "@/components/ui/dialog"
-import ShoppingCart from '../PublicConponents/ShoppingCart';
-  
+import { Button } from '@/components/ui/button';
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogTrigger 
+} from '@/components/ui/dialog';
+import { 
+  Sheet, 
+  SheetContent, 
+  SheetTrigger, 
+  SheetClose 
+} from '@/components/ui/sheet';
+import { FaBoxes } from 'react-icons/fa';
+// import { ShoppingCart } from '../PublicComponents/ShoppingCart';
 
+export const NavBar = () => {
+  const location = useLocation();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const navLinks = [
+    { to: '/home', title: 'Home', icon: <FaHome className="mr-2" /> },
+    { to: '/products', title: 'Products', icon: <FaBoxes className="mr-2" /> },
+    { to: '/categories', title: 'Categories', icon: <FaListAlt className="mr-2" /> },
+  ];
 
+  const actionButtons = [
+    {
+      to: '/signup',
+      label: 'Signup',
+      variant: 'ghost',
+    },
+    {
+      to: '/login',
+      label: 'Login',
+      variant: 'default',
+    },
+  ];
 
-export default function NavBar() {
-    const location = useLocation();
-
-    const navLinks = [
-        { to: '/home', title: 'Home' },
-        { to: '/products', title: 'Products' },
-        { to: '/categories', title: 'Categories' },
-    ];
-
-    const actionButtons = [
-      {
-          to: '/signup',
-          label: 'Signup',
-          var: 'ghost',
-          active: '',
-      },
-        {
-            to: '/login',
-            label: 'Login',
-            var: 'default',
-            
-        },
-    ];
-
-    return (
-        <nav className="flex justify-between items-center bg-white p-4 text-black">
-            <Link to="/">
-                <img src="/image.png" className="h-10 w-auto mx-4" alt="Logo" />
-            </Link>
-
-            <ul className="flex space-x-4 items-center">
-
-                {navLinks.map((link) => (
-                    <li key={link.to}>
-                        <Link
-                            to={link.to}
-                            className={`hover:text-gray-300 ${
-                              location.pathname === link.to ? 'border-b-1 border-b-black border-b-solid' : ''
-                          }`}
-                        >
-                            {link.title}
-                        </Link>
-                    </li>
-                ))}
-                  <li>
-                      <Link to="/favorites" >
-                          <FaHeart  className="h-5 w-5 mr-1  hover:text-gray-300 " />
+  return (
+    <nav className="sticky flex justify-around top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between px-4">
+        {/* Mobile menu trigger and logo */}
+        <div className="flex md:hidden items-center gap-2">
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-9 w-9">
+                {mobileMenuOpen ? <FaTimes /> : <FaBars />}
+                <span className="sr-only">Toggle menu</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[300px] sm:w-[400px]">
+              <div className="flex flex-col gap-6 py-6">
+                <Link 
+                  to="/" 
+                  className="flex items-center gap-2"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <img src="/image.png" className="h-8 w-auto" alt="Logo" />
+                  <span className="font-bold">YourBrand</span>
+                </Link>
+                <div className="flex flex-col gap-1">
+                  {navLinks.map((link) => (
+                    <SheetClose asChild key={link.to}>
+                      <Link
+                        to={link.to}
+                        className={`flex items-center py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
+                          location.pathname === link.to
+                            ? 'bg-accent text-accent-foreground'
+                            : 'hover:bg-accent/50'
+                        }`}
+                      >
+                        {link.icon}
+                        {link.title}
                       </Link>
-                  </li>
-                <li>
-                    
-                                    <Dialog>
-                                <DialogTrigger ><FaCartShopping  className="h-5 w-5 mt-1.5 hover:text-gray-300  " /></DialogTrigger>
-                                <DialogContent>
-                                <ShoppingCart/>
-                                         </DialogContent>
-                                            </Dialog>
+                    </SheetClose>
+                  ))}
+                </div>
+                <div className="flex flex-col gap-2 mt-4">
+                  {actionButtons.map((btn) => (
+                    <SheetClose asChild key={btn.to}>
+                      <Button variant={btn.variant} asChild>
+                        <Link to={btn.to}>{btn.label}</Link>
+                      </Button>
+                    </SheetClose>
+                  ))}
+                </div>
+              </div>
+            </SheetContent>
+          </Sheet>
+          <Link to="/" className="flex items-center">
+            <img src="/image.png" className="h-8 w-auto" alt="Logo" />
+          </Link>
+        </div>
 
-                </li>
+        {/* Desktop logo */}
+        <Link to="/" className="hidden md:flex items-center gap-2">
+          <img src="/image.png" className="h-8 w-auto" alt="Logo" />
+          <span className="font-bold">YourBrand</span>
+        </Link>
 
-                
-                {actionButtons.map((btn) => (
-                    <li key={btn.to}>
-                        <Link
-                            to={btn.to}
+        {/* Desktop navigation */}
+        <div className="hidden md:flex items-center gap-6">
+          {navLinks.map((link) => (
+            <Link
+              key={link.to}
+              to={link.to}
+              className={`flex items-center text-sm font-medium transition-colors hover:text-primary ${
+                location.pathname === link.to
+                  ? 'text-foreground'
+                  : 'text-foreground/60'
+              }`}
+            >
+              {link.icon}
+              {link.title}
+            </Link>
+          ))}
+        </div>
 
-                            >
-                            <Button variant={btn.var}>{btn.label}</Button>
-                        
-                            
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </nav>
-    );
-}
+        {/* Action buttons */}
+        <div className="flex items-center gap-4">
+          <Button variant="ghost" size="icon" asChild>
+            <Link to="/favorites">
+              <FaHeart className="h-4 w-4" />
+              <span className="sr-only">Favorites</span>
+            </Link>
+          </Button>
+
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <FaCartShopping className="h-4 w-4" />
+                <span className="sr-only">Cart</span>
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              {/* <ShoppingCart /> */}
+            </DialogContent>
+          </Dialog>
+
+          <div className="hidden sm:flex items-center gap-2">
+            {actionButtons.map((btn) => (
+              <Button key={btn.to} variant={btn.variant} asChild>
+                <Link to={btn.to}>{btn.label}</Link>
+              </Button>
+            ))}
+          </div>
+        </div>
+      </div>
+  </nav>
+);
+};

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CategoryCard from "@/components/PublicConponents/CategoryCard";
 import axiosClient from "@/api/axiosClient";
 import { ProductLoading } from "@/components/LoadingComponents/ProductLoading";
+import { Link } from "react-router-dom";
 
 export default function CategoryPage() {
   const [categories, setCategories] = useState([]);
@@ -54,12 +55,14 @@ export default function CategoryPage() {
                 : "https://via.placeholder.com/150";
 
             return (
+              <Link to={`/products?id=${category.id}`}>
               <CategoryCard
                 key={category.id}
                 category={category}
                 productCount={category.products_count}
                 imageUrl={firstImage}
-              />
+                />
+                </Link>
             );
           })}
         </div>

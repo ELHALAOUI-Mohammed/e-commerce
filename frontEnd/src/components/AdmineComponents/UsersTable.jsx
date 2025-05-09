@@ -1,5 +1,18 @@
 import axiosClient from '@/api/axiosClient';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FiPlus, FiEdit2, FiTrash2, FiEye } from 'react-icons/fi';
+import { Button } from '@/components/ui/button';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function UsersTable() {
     const [users, setUsers] = useState([]);
@@ -11,63 +24,88 @@ export default function UsersTable() {
     }, []);
 
     return (
-        <div className="container mx-auto px-4 py-8">
-  <div className="flex justify-between items-center mb-6">
-    <h2 className="text-2xl font-bold text-gray-800 md:text-3xl">User Management</h2>
-    {/* Add user button could go here if needed */}
-  </div>
+<div className="flex justify-center w-full px-4">
+  <div className="container flex flex-col justify-center w-full max-w-6xl px-2 sm:px-4 py-4 sm:py-6">
+    {/* Header Section */}
+    <div className="flex flex-col gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">User Management</h2>
+            <p className="text-sm text-muted-foreground mt-1">Manage system users</p>
+          </div>
+        </div>
+        {/* Add user button could go here if needed */}
+      </div>
+    </div>
 
-  <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200">
-    <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-50">
-          <tr>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+    {/* Table Section */}
+    <div className="rounded-md border shadow-sm overflow-x-auto">
+      <Table className="min-w-[800px] sm:min-w-full">
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[80px]">ID</TableHead>
+            <TableHead>Name</TableHead>
+            <TableHead>Email</TableHead>
+            <TableHead className="hidden md:table-cell">Address</TableHead>
+            <TableHead>Phone</TableHead>
             {/* Add action column if needed */}
-          </tr>
-        </thead>
-        <tbody className="bg-white divide-y divide-gray-200">
-          {users.map(user => (
-            <tr key={user.id} className="hover:bg-gray-50 transition-colors duration-150">
-              <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-500">{user.id}</td>
-              <td className="px-6 py-4 whitespace-nowrap">
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {users.map((user) => (
+            <TableRow key={user.id} className="hover:bg-muted/50">
+              <TableCell className="font-mono text-muted-foreground">
+                {user.id}
+              </TableCell>
+              <TableCell>
                 <div className="flex items-center">
                   <div className="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center mr-3">
                     <span className="text-blue-600 font-medium">
                       {user.name.charAt(0).toUpperCase()}
                     </span>
                   </div>
-                  <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                  <div className="font-medium">{user.name}</div>
                 </div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                <a href={`mailto:${user.email}`} className="text-blue-600 hover:text-blue-800 hover:underline">
+              </TableCell>
+              <TableCell>
+                <a 
+                  href={`mailto:${user.email}`} 
+                  className="text-blue-600 hover:text-blue-800 hover:underline"
+                >
                   {user.email}
                 </a>
-              </td>
-              <td className="px-6 py-4 text-sm text-gray-500 max-w-xs">
-                <div className="line-clamp-1" title={user.address}>
-                  {user.address}
-                </div>
-              </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              </TableCell>
+              <TableCell className="hidden md:table-cell text-muted-foreground max-w-[200px] truncate">
+                {user.address}
+              </TableCell>
+              <TableCell className="text-muted-foreground">
                 {user.phone ? (
-                  <a href={`tel:${user.phone}`} className="hover:text-blue-600 hover:underline">
+                  <a 
+                    href={`tel:${user.phone}`} 
+                    className="text-blue-600 hover:text-blue-800 hover:underline"
+                  >
                     {user.phone}
                   </a>
                 ) : (
-                  <span className="text-gray-400">Not provided</span>
+                  <span className="text-muted-foreground">Not provided</span>
                 )}
-              </td>
+              </TableCell>
               {/* Add action buttons if needed */}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
+    </div>
+
+    {/* Optional: Pagination */}
+    <div className="flex items-center justify-end space-x-2 py-4">
+      <Button variant="outline" size="sm" disabled>
+        Previous
+      </Button>
+      <Button variant="outline" size="sm">
+        Next
+      </Button>
     </div>
   </div>
 </div>

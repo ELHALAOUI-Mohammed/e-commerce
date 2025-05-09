@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react';
 import axiosClient from '@/api/axiosClient';
-import ProductForm from './ProductForm';
 import { Link, useNavigate } from 'react-router-dom';
+import { Button } from "@/components/ui/button"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Badge } from "@/components/ui/badge"
+import { Skeleton } from "@/components/ui/skeleton"
+import { FiPlus, FiEdit2, FiTrash2 } from "react-icons/fi"
+import { MdSearch } from "react-icons/md"
 
 export default function ProductsTable() {
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [showForm, setShowForm] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState(null);
     const navigate = useNavigate();
 
     const fetchProducts = async () => {
@@ -40,92 +43,114 @@ export default function ProductsTable() {
     }, []);
 
     return (
-        <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-800">Product Management</h2>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-md transition duration-200 ease-in-out transform hover:scale-105">
-            <Link to="/admin/products/add" className="flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-              </svg>
-              Add Product
-            </Link>
-          </button>
+  <div className="flex justify-center w-full px-4">
+  <div className="container flex flex-col justify-center w-full max-w-6xl px-2 sm:px-4 py-4 sm:py-6">
+    {/* Header Section */}
+    <div className="flex flex-col gap-4 mb-6">
+      {/* Search and Add Product */}
+      <div className="flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
+          <div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Product Management</h2>
+            <p className="text-sm text-muted-foreground mt-1">Manage your product inventory</p>
+          </div>
         </div>
-      
-        {showForm && (
-          <ProductForm
-            product={selectedProduct}
-            onSuccess={handleFormSuccess}
-            onCancel={() => setShowForm(false)}
-          />
-        )}
-      
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
-        ) : (
-          <div className="bg-white rounded-xl shadow-md overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {products.map((product) => (
-                    <tr key={product.id} className="hover:bg-gray-50 transition-colors duration-150">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{product.id}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{product.name}</td>
-                      <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{product.description}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">
-                        ${parseFloat(product.price).toFixed(2)}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
-                          ${product.stock > 10 ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
-                          {product.stock} in stock
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                        {product.category?.name || <span className="text-red-400">No Category</span>}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <div className="flex justify-end space-x-2">
-                          <button
-                                      onClick={() =>
-                                        navigate(`/admin/products/edit/${product.id}`, {
-                                          state: { product },
-                                        })
-                                      }
-                                      className="text-indigo-600 hover:text-indigo-900 bg-indigo-50 hover:bg-indigo-100 px-3 py-1 rounded-md text-sm font-medium transition-colors duration-200"
-                                    >
-                                      Edit
-                          </button>
-
-                          <button
-                            onClick={() => deleteProduct(product.id)}
-                            className="text-red-600 hover:text-red-900 bg-red-50 hover:bg-red-100 px-3 py-1 rounded-md text-sm font-medium transition-colors duration-200"
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
+        <Button asChild className="shrink-0">
+          <Link to="/admin/products/add" className="flex items-center gap-2">
+            <FiPlus className="h-4 w-4" />
+            <span className="hidden sm:inline">Add Product</span>
+          </Link>
+        </Button>
       </div>
-      );
+    </div>
+
+    {/* Table Section */}
+    {loading ? (
+      <div className="space-y-2">
+        <Skeleton className="h-10 w-full rounded-md" />
+        {[...Array(5)].map((_, i) => (
+          <Skeleton key={i} className="h-16 w-full rounded-md" />
+        ))}
+      </div>
+    ) : (
+      <div className="rounded-md border shadow-sm overflow-x-auto">
+        <Table className="min-w-[800px] sm:min-w-full">
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[80px]">ID</TableHead>
+              <TableHead>Name</TableHead>
+              <TableHead className="hidden md:table-cell">Description</TableHead>
+              <TableHead>Price</TableHead>
+              <TableHead>Stock</TableHead>
+              <TableHead className="hidden sm:table-cell">Category</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {products.map((product) => (
+              <TableRow key={product.id} className="hover:bg-muted/50">
+                <TableCell className="font-medium">{product.id}</TableCell>
+                <TableCell className="font-medium">
+                  {product.name}
+                  <div className="md:hidden text-sm text-muted-foreground mt-1 line-clamp-2">
+                    {product.description}
+                  </div>
+                </TableCell>
+                <TableCell className="hidden md:table-cell text-muted-foreground max-w-[200px] truncate">
+                  {product.description}
+                </TableCell>
+                <TableCell className="font-semibold">
+                  ${parseFloat(product.price).toFixed(2)}
+                </TableCell>
+                <TableCell>
+                  <Badge variant={product.stock > 10 ? "success" : "warning"}>
+                    {product.stock}
+                  </Badge>
+                </TableCell>
+                <TableCell className="hidden sm:table-cell text-muted-foreground">
+                  {product.category?.name || (
+                    <span className="text-destructive">No Category</span>
+                  )}
+                </TableCell>
+                <TableCell className="text-right">
+                  <div className="flex justify-end gap-1 sm:gap-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3"
+                      onClick={() => navigate(`/admin/products/edit/${product.id}`)}
+                    >
+                      <FiEdit2 className="h-4 w-4" />
+                      <span className="hidden sm:ml-2 sm:inline">Edit</span>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3 text-destructive hover:text-destructive"
+                      onClick={() => deleteProduct(product.id)}
+                    >
+                      <FiTrash2 className="h-4 w-4" />
+                      <span className="hidden sm:ml-2 sm:inline">Delete</span>
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    )}
+
+    {/* Pagination (optional) */}
+    <div className="flex items-center justify-end space-x-2 py-4">
+      <Button variant="outline" size="sm" disabled>
+        Previous
+      </Button>
+      <Button variant="outline" size="sm">
+        Next
+      </Button>
+    </div>
+  </div>
+</div>
+);
 }
