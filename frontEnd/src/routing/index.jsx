@@ -21,12 +21,16 @@ import ProductsTable from "@/components/AdmineComponents/ProductsTable";
 import CategoryForm from "@/components/AdmineComponents/CategoryForm";
 import EditCategory from "@/components/AdmineComponents/EditCategory";
 import EditProduct from "@/components/AdmineComponents/EditProduct";
+import PublicRoute from "@/pages/public/PublicRoute";
 // import EditProduct from "@/components/AdmineComponents/EditProduct";
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layouts />,
+    element: <PublicRoute>
+
+      <Layouts />
+    </PublicRoute>,
     children: [
       {
         path: '/',
@@ -76,7 +80,10 @@ export const router = createBrowserRouter([
   },
   {
     path: '/admin',
-    element: <AdmineLayouts />,
+    element: <ProtectedRoute>
+      <AdmineLayouts />
+
+    </ProtectedRoute> ,
     children: [
       {
         path: '/admin',

@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
+
  
 // Products
 Route::get('/products', [ProductController::class, 'index']);
@@ -31,7 +32,11 @@ Route::get('/users' ,[UserController::class, 'index']);
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login',    [AuthController::class, 'login']);
-Route::post('/logout',   [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
+Route::middleware('auth:sanctum')->post('/logout', function (Request $request) {
+    Auth::logout();
+    return response()->json(['message' => 'Logged out successfully']);
+});
 
 // Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
@@ -70,3 +75,15 @@ Route::delete('/favorites', [FavoriteController::class, 'destroy']);
 
 // images
 Route::get('/images/{filename}', [ImageController::class, 'serve']);
+
+Route::middleware(['auth', 'role:customer'])->group(function () {
+    Route::get('/favorites', [FavoriteController::class, 'index']);
+    Route::post('/orders/confirm', [OrderController::class, 'confirm']);
+});
+
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
+});
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);  

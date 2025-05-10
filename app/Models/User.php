@@ -14,6 +14,16 @@ class User extends Authenticatable
     use HasFactory ,HasApiTokens, Notifiable;
 
     protected $fillable = ['name', 'email', 'password', 'address', 'phone', 'role'];
+    
+        // app/Models/User.php
+    public function isAdmin() {
+        return $this->role === 'admin';
+    }
+
+    public function isCustomer() {
+        return $this->role === 'customer';
+    }
+
 
     public function orders()
     {

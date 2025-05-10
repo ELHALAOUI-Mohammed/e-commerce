@@ -35,10 +35,17 @@ axiosClient.interceptors.request.use(async (config) => {
     }
   }
 
-  // Set token if found
-  const token = getCookie('XSRF-TOKEN');
+    // Auth token from localStorage
+  const token = localStorage.getItem('token');
   if (token) {
-    config.headers['X-XSRF-TOKEN'] = token;
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+
+
+  // Set token if found
+  const CFtoken = getCookie('XSRF-TOKEN');
+  if (CFtoken) {
+    config.headers['X-XSRF-TOKEN'] = CFtoken;
   }
 
   return config;

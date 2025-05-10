@@ -1,10 +1,12 @@
 import axiosClient from "@/api/axiosClient";
+import { useAuth } from "@/context/AuthContext";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 // import axiosClient from "../axiosClient"; // adjust path as needed
 
 export default function LoginPage() {
+  const { login } = useAuth();
   const navigate = useNavigate()
   const {
     register,
@@ -12,24 +14,21 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = async (data) => {
-    try {
-      const res = await axiosClient.post("/login", data); // Adjust endpoint if needed
-      // Optionally redirect or update auth context here
-      if (res.data.user.role === 'admin'){
-        
-        navigate('/admin/dashboard')
+const onSubmit = async (data) => {
+  try {
+    const response = await axiosClient.post('/login', data);
+    const { token, user } = response.data;
 
-      }
-      else{
-        navigate('/')
-      }
-      
-    } catch (error) {
-      console.error(error);
-      alert("Login failed. Please check your credentials.");
-    }
-  };
+    // Update context and localStorage
+    login(user, token);
+
+    // Redirect after state is updated
+    navigate(user.role === 'admin' ? '/admin/dashboard' : '/');
+  } catch (error) {
+    console.error(error);
+    alert('Login failed. Please check your credentials.');
+  }
+};
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
