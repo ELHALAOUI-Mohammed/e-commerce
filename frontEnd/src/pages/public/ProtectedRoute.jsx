@@ -12,13 +12,13 @@ export default function ProtectedRoute({ children }) {
   }
 
   // Admins redirected to dashboard when trying to access customer-only pages
-  if (user.role === 'admin' && location.pathname.startsWith('/favorites')) {
+  if (user.role === 'admin' && location.pathname.startsWith('/customer')) {
     return <Navigate to="/admin/dashboard" replace />;
   }
 
   // Customers restricted from admin pages
   if (user.role === 'customer' && location.pathname.startsWith('/admin')) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/customer" replace />;
   }
 
   return children;

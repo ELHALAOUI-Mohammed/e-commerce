@@ -22,6 +22,8 @@ import CategoryForm from "@/components/AdmineComponents/CategoryForm";
 import EditCategory from "@/components/AdmineComponents/EditCategory";
 import EditProduct from "@/components/AdmineComponents/EditProduct";
 import PublicRoute from "@/pages/public/PublicRoute";
+import CostumerLayouts from "@/layouts/CostumerLayouts";
+// import CostumerLayouts from "@/layouts/CostumerLayouts";
 // import EditProduct from "@/components/AdmineComponents/EditProduct";
 
 export const router = createBrowserRouter([
@@ -125,6 +127,20 @@ export const router = createBrowserRouter([
         path: '/admin/orders',
         element: <OrdersTable />
       }
-    ]
-  }  
+    ],
+  }  ,
+    {
+    path: '/customer',
+    element: (
+      <ProtectedRoute>
+        <CostumerLayouts />
+       </ProtectedRoute>
+    ),
+    children: [
+      { path: '/customer', element: <Navigate to="/customer/home" /> },
+      { path: '/customer/home', element: <HomePage /> },
+      // { path: '/customer/cart', element: <ShoppingCart /> },
+      // { path: '/customer/orders', element: <OrdersPage /> },
+    ],
+  },
 ]);

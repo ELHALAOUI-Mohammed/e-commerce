@@ -23,7 +23,8 @@ const onSubmit = async (data) => {
     login(user, token);
 
     // Redirect after state is updated
-    navigate(user.role === 'admin' ? '/admin/dashboard' : '/');
+    navigate(user.role === 'admin' ? '/admin/dashboard' : '/customer/home');
+    
   } catch (error) {
     console.error(error);
     alert('Login failed. Please check your credentials.');

@@ -19,4 +19,4 @@ export default function DashBoard () {
         <button onClick={logout}>log out</button>
         </>
     )
-}
+} 

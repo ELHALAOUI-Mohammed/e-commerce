@@ -6,7 +6,7 @@ export default function PublicRoute({ children }) {
 
   if (user) {
     // Redirect based on role
-    return <Navigate to={user.role === 'admin' ? '/admin/dashboard' : '/'} replace />;
+    return <Navigate to={user.role === 'admin' ? '/admin/dashboard' : '/customer/home'} replace />;
   }
 
   return children;
