@@ -3,11 +3,18 @@ import CategoryCard from "@/components/PublicConponents/CategoryCard";
 import axiosClient from "@/api/axiosClient";
 import { ProductLoading } from "@/components/LoadingComponents/ProductLoading";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 export default function CategoryPage() {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+const { user } = useAuth();
+
+const url = (id) => user?.role === 'customer' 
+        ? `/customer/products?id=${id}` 
+        : `/products?id=${id}`;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +62,7 @@ export default function CategoryPage() {
                 : "https://via.placeholder.com/150";
 
             return (
-              <Link to={`/products?id=${category.id}`}>
+              <Link to={url(category.id) }>
               <CategoryCard
                 key={category.id}
                 category={category}

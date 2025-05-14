@@ -56,19 +56,32 @@ Route::get('/categories/top', [CategoryController::class, 'topCategories']);
 
 
 // Cart
+
+// Route::get('/cart/{userId}', [CartController::class, 'show']);
+// Route::post('/cart', [CartController::class, 'addToCart']);
+// Route::delete('/cart/remove', [CartController::class, 'removeFromCart']);
+// Route::delete('/cart/clear/{userId}', [CartController::class, 'clearCart']);
 Route::get('/cart/{userId}', [CartController::class, 'show']);
 Route::post('/cart/add', [CartController::class, 'addToCart']);
-Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
+Route::post('/remove-from-cart', [CartController::class, 'removeFromCart']);
 Route::delete('/cart/clear/{userId}', [CartController::class, 'clearCart']);
+Route::put('/api/cart/{userId}', [CartController::class, 'updateQuantity']); // You need to add this method
+
+
 
 // Orders
 Route::get('/orders/{userId}', [OrderController::class, 'index']);
 Route::post('/orders', [OrderController::class, 'store']);
 Route::post('/orders/cancel/{id}', [OrderController::class, 'cancel']);
+// Route::post('/orders/checkout', [OrderController::class, 'checkoutCart']);
+Route::post('/orders/checkout', [OrderController::class, 'checkout']);
+
+
 
 // Favorites
 Route::get('/favorites/{userId}', [FavoriteController::class, 'index']);
 Route::post('/favorites', [FavoriteController::class, 'store']);
+
 Route::delete('/favorites', [FavoriteController::class, 'destroy']);
 
 

@@ -30,18 +30,21 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { useSearchParams } from "react-router-dom";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
-
+  const [searchParams, setSearchParams] = useSearchParams();
+  
+  const id = parseInt(searchParams.get("id"))
+  const [selectedCategory, setSelectedCategory] = useState(id || null);
   // Fetch categories
   useEffect(() => {
     const fetchCategories = async () => {

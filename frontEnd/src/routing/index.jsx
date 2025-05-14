@@ -63,10 +63,6 @@ export const router = createBrowserRouter([
         element: <LoginPage />,
       },
       {
-        path: '/favorites',
-        element: <ProtectedRoute><FavoritePage /></ProtectedRoute>,
-      },
-      {
         path: '/cart',
         element: <ProtectedRoute><ShoppingCart /></ProtectedRoute>,
       },
@@ -139,6 +135,22 @@ export const router = createBrowserRouter([
     children: [
       { path: '/customer', element: <Navigate to="/customer/home" /> },
       { path: '/customer/home', element: <HomePage /> },
+      {
+        path: '/customer/favorites',
+        element: <FavoritePage />
+      },
+      {
+        path: '/customer/products',
+        element: <ProductsPage />,
+      },
+      {
+        path: '/customer/categories',
+        element: <CategoriesPage />,
+      },
+      {
+        path: '/customer/product/:id',
+        element: <ProductsDetails />,
+      },
       // { path: '/customer/cart', element: <ShoppingCart /> },
       // { path: '/customer/orders', element: <OrdersPage /> },
     ],

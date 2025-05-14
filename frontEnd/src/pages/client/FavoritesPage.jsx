@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-// import Cardd from "@/publicComponents/Cardd";
 import { useAuth } from "@/context/AuthContext";
-// import { Button } from "@/components/ui/button";
-// import { Link } from "react-router-dom";
+// import Cardd from "@/publicComponents/Cardd"; // Optional: use if you have a card layout component
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import axiosClient from "@/api/axiosClient";
 
 export default function FavoritePage() {
   const { user } = useAuth();
@@ -24,33 +25,83 @@ export default function FavoritePage() {
         setLoading(false);
       }
     };
+
     fetchFavorites();
   }, [user]);
 
   const removeFavorite = async (productId) => {
     try {
-      await axios.delete("/api/favorites", { 
-        data: { user_id: user.id, product_id: productId } 
+      await axiosClient.delete("/favorites", {
+        data: { user_id: user.id, product_id: productId },
       });
-      setFavorites(favorites.filter(fav => fav.product.id !== productId));
+      setFavorites((prev) => prev.filter((fav) => fav.product.id !== productId));
       setNotification({ type: "success", message: "Removed from favorites" });
     } catch (error) {
       setNotification({ type: "error", message: "Failed to remove favorite" });
     }
   };
 
+  if (!user) {
+    return (
+      <div className="p-6 max-w-4xl mx-auto text-center text-red-600">
+        Please log in to view your favorites.
+      </div>
+    );
+  }
+
   return (
     <div className="p-6 max-w-7xl mx-auto">
       {notification && (
-        <div className={`p-3 mb-4 rounded ${
-          notification.type === "error" ? "bg-red-100 text-red-800" : "bg-green-100 text-green-800"
-        }`}>
+        <div
+          className={`p-3 mb-4 rounded ${
+            notification.type === "error"
+              ? "bg-red-100 text-red-800"
+              : "bg-green-100 text-green-800"
+          }`}
+        >
           {notification.message}
         </div>
       )}
 
-      {/* Rest of your component remains the same */}
-      {/* ... */}
+      <h1 className="text-2xl font-bold mb-6">My Favorite Products</h1>
+
+      {loading ? (
+        <div className="text-center text-gray-500">Loading favorites...</div>
+      ) : favorites.length === 0 ? (
+        <div className="text-center text-gray-500">You have no favorites yet.</div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {favorites.map((fav) => (
+            <div
+              key={fav.product.id}
+              className="border rounded-lg p-4 shadow hover:shadow-lg transition"
+            >
+              {/* You can replace this with <Cardd product={fav.product} /> if available */}
+              <img
+                src={fav.product.image_url || "/placeholder.jpg"}
+                alt={fav.product.name}
+                className="h-40 w-full object-cover rounded mb-3"
+              />
+              <h2 className="text-lg font-semibold">{fav.product.name}</h2>
+              <p className="text-sm text-gray-600 mb-2">{fav.product.description}</p>
+              <p className="text-primary font-bold mb-2">${fav.product.price}</p>
+
+              <div className="flex justify-between items-center">
+                <Link to={`/customer/product/${fav.product.id}`} className="text-sm text-blue-500">
+                  View Product
+                </Link>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => removeFavorite(fav.product.id)}
+                >
+                  Remove
+                </Button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

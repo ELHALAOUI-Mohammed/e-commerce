@@ -4,6 +4,8 @@ import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/button";
 import axiosClient from "@/api/axiosClient";
+import { ShoppingCart } from "lucide-react";
+import { FavoriteButton } from "@/components/PublicConponents/FavoriteButton";
 
 export default function ProductsDetails() {
   const { id } = useParams();
@@ -12,6 +14,39 @@ export default function ProductsDetails() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [notification, setNotification] = useState(null);
+  
+  const [quantity, setQuantity] = useState(1);
+const min = 1;
+const max = product?.stock || 10; // fallback if product is null
+
+const handleDecrease = () => {
+  if (quantity > min) setQuantity(quantity - 1);
+};
+
+const handleIncrease = () => {
+  if (quantity < max) setQuantity(quantity + 1);
+};
+
+
+
+  
+  const handleAddToCart = async () => {
+    if (!user) {
+      toast.error("Vous devez être connecté.");
+      return;
+    }
+
+    try {
+      await axiosClient.post("/cart/add", {
+        user_id: user.id,
+        product_id: product.id,
+        quantity,
+      });
+      toast.success("Produit ajouté au panier !");
+    } catch (error) {
+      toast.error("Échec de l'ajout au panier.");
+    }
+  };
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -31,18 +66,7 @@ export default function ProductsDetails() {
   }, [id, navigate]);
   
 
-  const handleAddToCart = async () => {
-    if (!user) {
-      navigate("/login", { state: { from: `/product/${id}` } });
-      return;
-    }
-    try {
-      await axiosClient.post("/api/cart/add", { user_id: user.id, product_id: id });
-      setNotification({ type: "success", message: "Added to cart!" });
-    } catch (error) {
-      setNotification({ type: "error", message: "Failed to add to cart" });
-    }
-  };
+ 
 
   return (
     <div className="p-6 max-w-7xl mx-auto min-h-screen">
@@ -157,12 +181,25 @@ export default function ProductsDetails() {
 
         <div className="mt-8">
           <div className="flex items-center space-x-4">
-            <div className="flex items-center border rounded-md">
-              <button className="px-3 py-2 text-gray-600 hover:bg-gray-100">-</button>
-              <span className="px-3 py-2">1</span>
-              <button className="px-3 py-2 text-gray-600 hover:bg-gray-100">+</button>
-            </div>
-            <button 
+          <div className="flex items-center border border-gray-300 rounded-md overflow-hidden w-fit">
+  <button
+    onClick={handleDecrease}
+    className="px-4 py-2 text-gray-700 hover:bg-gray-200 disabled:opacity-40"
+    disabled={quantity <= min}
+  >
+    -
+  </button>
+  <span className="px-4 py-2 text-gray-800 font-medium bg-white">{quantity}</span>
+  <button
+    onClick={handleIncrease}
+    className="px-4 py-2 text-gray-700 hover:bg-gray-200 disabled:opacity-40"
+    disabled={quantity >= max}
+  >
+    +
+  </button>
+</div>
+
+            {/* <button 
               className={`flex-1 px-6 py-3 rounded-md font-medium transition-colors ${
                 product?.stock > 0 
                   ? 'bg-indigo-600 hover:bg-indigo-700 text-white'
@@ -171,14 +208,22 @@ export default function ProductsDetails() {
               disabled={product?.stock <= 0}
             >
               {product?.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
-            </button>
+            </button> */}
+            <Button
+          size="sm"
+          className="rounded-xl h-12 gap-2 font-bold"
+          disabled={product?.stock <= 0}
+          onClick={handleAddToCart}
+        >
+          <ShoppingCart className="h-5 w-5" />
+                {product?.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+          </Button>
           </div>
-          <button className="mt-4 w-full px-6 py-3 border border-gray-300 rounded-md font-medium text-gray-700 hover:bg-gray-50 transition-colors">
-            Add to Wishlist
-          </button>
+          <FavoriteButton productId={product?.id}  />
         </div>
       </div>
     </div>
+    
 
     {/* Product tabs section */}
     

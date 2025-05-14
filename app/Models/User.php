@@ -31,10 +31,13 @@ class User extends Authenticatable
     }
 
     public function cart()
-    {
-        return $this->hasOne(Cart::class);
-    }
+{
+    return $this->belongsToMany(Product::class, 'carts') // 'cart' is the name of the pivot table
+                ->withPivot('quantity') // Include the 'quantity' column from the pivot table
+                ->withTimestamps();
+}
 
+    
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
