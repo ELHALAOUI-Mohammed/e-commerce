@@ -71,9 +71,11 @@ Route::put('/api/cart/{userId}', [CartController::class, 'updateQuantity']); // 
 
 // Orders
 Route::get('/orders', [OrderController::class, 'getAll']);
+Route::get('/orders/details/{id}', [OrderController::class, 'show']);
 Route::get('/orders/{userId}', [OrderController::class, 'index']);
 Route::post('/orders', [OrderController::class, 'store']);
 Route::post('/orders/cancel/{id}', [OrderController::class, 'cancel']);
+Route::post('/orders/accept/{id}', [OrderController::class, 'accept']);
 Route::post('/orders/checkout', [OrderController::class, 'checkoutCart']);
 
 

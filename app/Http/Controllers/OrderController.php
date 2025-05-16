@@ -44,13 +44,47 @@ class OrderController extends Controller
 
         return $order;
     }
+    public function show($id)
+{
+    $order = Order::with(['orderItems.product', 'user'])->find($id);
+
+    if (!$order) {
+        return response()->json(['message' => 'Order not found'], 404);
+    }
+
+    return response()->json($order);
+}
+
 
     public function cancel($id) {
         $order = Order::findOrFail($id);
+
+        if ($order->status !== 'pending') {
+        return response()->json([
+            'message' => 'this order is already accepted!'
+        ], 400);
+    }
         $order->status = 'canceled';
         $order->save();
+    
         return response()->json(['message' => 'Order canceled']);
     }
+   public function accept($id)
+{
+    $order = Order::findOrFail($id);
+
+    if ($order->status !== 'pending') {
+        return response()->json([
+            'message' => 'this order is already canceled!'
+        ], 400);
+    }
+
+    $order->status = 'accepted';
+    $order->save();
+
+    return response()->json(['message' => 'Order accepted']);
+}
+
     public function checkoutCart(Request $request)
 {
     $userId = $request->user_id;

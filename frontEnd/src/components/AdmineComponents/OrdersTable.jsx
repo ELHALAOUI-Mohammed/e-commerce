@@ -71,14 +71,14 @@ export default function OrdersTable() {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-1 sm:gap-2">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3"
-                        onClick={() => navigate(`/admin/orders/${order?.id}`)}
-                      >
-                        <FiEye className="h-4 w-4" />
-                        <span className="hidden sm:ml-2 sm:inline">View</span>
+                        <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3"
+                            onClick={() => navigate(`/admin/orders/${order.id}`)} // removed optional chaining; id is always present
+                          >
+                            <FiEye className="h-4 w-4" />
+                            <span className="hidden sm:ml-2 sm:inline">View</span>
                       </Button>
                     </div>
                   </TableCell>

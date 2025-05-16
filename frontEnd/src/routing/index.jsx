@@ -23,6 +23,7 @@ import EditCategory from "@/components/AdmineComponents/EditCategory";
 import EditProduct from "@/components/AdmineComponents/EditProduct";
 import PublicRoute from "@/pages/public/PublicRoute";
 import CostumerLayouts from "@/layouts/CostumerLayouts";
+import OrderDetails from "@/components/AdmineComponents/OrderDetails";
 // import CostumerLayouts from "@/layouts/CostumerLayouts";
 // import EditProduct from "@/components/AdmineComponents/EditProduct";
 
@@ -118,6 +119,10 @@ export const router = createBrowserRouter([
       {
         path: '/admin/users',
         element: <UsersTable />
+      },
+      {
+        path: '/admin/orders/:id',
+        element: <OrderDetails />
       },
       {
         path: '/admin/orders',

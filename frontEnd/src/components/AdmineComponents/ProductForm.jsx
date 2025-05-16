@@ -66,7 +66,7 @@ export default function ProductForm() {
 
     return (
         <div className="container mx-auto p-4">
-            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" encType='multipart/form-data'>
                 <h2 className="text-2xl font-bold mb-4">{id ? 'Edit Product' : 'Add Product'}</h2>
 
                 {/* Name */}
