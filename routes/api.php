@@ -70,11 +70,12 @@ Route::put('/api/cart/{userId}', [CartController::class, 'updateQuantity']); // 
 
 
 // Orders
+Route::get('/orders', [OrderController::class, 'getAll']);
 Route::get('/orders/{userId}', [OrderController::class, 'index']);
 Route::post('/orders', [OrderController::class, 'store']);
 Route::post('/orders/cancel/{id}', [OrderController::class, 'cancel']);
-// Route::post('/orders/checkout', [OrderController::class, 'checkoutCart']);
-Route::post('/orders/checkout', [OrderController::class, 'checkout']);
+Route::post('/orders/checkout', [OrderController::class, 'checkoutCart']);
+
 
 
 

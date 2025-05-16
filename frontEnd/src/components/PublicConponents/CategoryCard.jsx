@@ -13,7 +13,7 @@ export default function CategoryCard({ category, productCount, imageUrl }) {
           className="w-full h-32 object-cover rounded-lg"
         />
       </CardHeader>
-      <CardContent className="text-center">
+      <CardContent className="text-center"> 
         <CardTitle className="text-lg">{category.name}</CardTitle>
         <p className="text-sm text-gray-500">{productCount} products</p>
       </CardContent>

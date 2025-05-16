@@ -219,8 +219,8 @@ export default function ShoppingCart() {
           >
             Proceed to Order
           </Button> */}
-          <CheckoutButton
-          userId={user.id}
+        <CheckoutButton
+  userId={user.id}
   onCheckoutSuccess={() => {
     setCartItems([]);
     toast.success("Commande validée avec succès !");

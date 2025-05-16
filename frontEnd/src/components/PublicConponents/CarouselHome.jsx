@@ -10,8 +10,17 @@ import {
 import { Card, CardContent } from '@/components/ui/card';
 // import LoadingScreen from '../LoadingComponents/Loading';
 import { HomeLoading } from '../LoadingComponents/HomeLoading';
+import { Link } from 'react-router-dom';
+import { useAuth } from '@/context/AuthContext';
+
+
+
 
 const CarouselHome = ({ title, items, loading }) => {
+  const { user } = useAuth();
+const url = (id) => user?.role === 'customer' 
+        ? `/customer/product/${id}` 
+        : `/product/${id}`;
     return (
  <div className="container mx-auto px-4 py-12">
   <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">{title}</h1>
@@ -26,6 +35,7 @@ const CarouselHome = ({ title, items, loading }) => {
           className="pl-1 md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
         >
           <div className="p-1">
+            <Link  to={url(item.id)}>
             <Card className="shadow-sm dark:shadow-none rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-md dark:hover:bg-gray-800/50 border border-gray-100 dark:border-gray-800 hover:border-gray-200 dark:hover:border-gray-700">
               <CardContent className="flex flex-col items-center p-6">
                 <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-xl bg-gray-50 dark:bg-gray-800">
@@ -45,6 +55,7 @@ const CarouselHome = ({ title, items, loading }) => {
                 )}
               </CardContent>
             </Card>
+            </Link>
           </div>
         </CarouselItem>
       )) : <HomeLoading/>}
@@ -56,4 +67,4 @@ const CarouselHome = ({ title, items, loading }) => {
     );
 };
 
-export default CarouselHome;
+export default CarouselHome;

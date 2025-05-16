@@ -19,6 +19,11 @@ class OrderController extends Controller
 
     return response()->json($orders);
 }
+    public function getAll() {
+    return Order::all();
+
+     
+}
 
     public function store(Request $request) {
         $order = Order::create([

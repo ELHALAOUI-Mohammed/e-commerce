@@ -1,38 +1,35 @@
-import axiosClient from '@/api/axiosClient';
-import { useState } from 'react';
+// src/components/CheckoutButton.jsx
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import axiosClient from "@/api/axiosClient";
+import { toast } from "sonner";
 
-function CheckoutButton({ userId, onCheckoutSuccess }) {
+export default function CheckoutButton({ userId, onCheckoutSuccess }) {
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
 
   const handleCheckout = async () => {
     setLoading(true);
     try {
-      const response = await axiosClient.post('/orders/checkout', {
+      const { data } = await axiosClient.post("/orders/checkout", {
         user_id: userId,
       });
-
-      setMessage("Commande passée avec succès !");
-      onCheckoutSuccess?.(response.data); // optional callback
+      onCheckoutSuccess();
+      toast.success("Commande passée avec succès !");
     } catch (error) {
-      setMessage(error.response?.data?.message || 'Erreur lors de la commande');
+      console.error("Checkout failed:", error);
+      toast.error("Erreur lors de la validation de la commande.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="text-right mt-4">
-      <button
-        className="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded"
-        onClick={handleCheckout}
-        disabled={loading}
-      >
-        {loading ? "Chargement..." : "Aller au paiement"}
-      </button>
-      {message && <p className="text-sm text-gray-700 mt-2">{message}</p>}
-    </div>
+    <Button 
+      onClick={handleCheckout}
+      disabled={loading}
+      className="w-full h-14 bg-primary hover:bg-primary/90 text-lg"
+    >
+      {loading ? "Processing..." : "Proceed to Checkout"}
+    </Button>
   );
 }
-
-export default CheckoutButton;
