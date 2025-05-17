@@ -40,10 +40,13 @@ const url = (id) => user?.role === 'customer'
               <CardContent className="flex flex-col items-center p-6">
                 <div className="relative w-full aspect-square mb-4 overflow-hidden rounded-xl bg-gray-50 dark:bg-gray-800">
                   <img
-                    src="/image.png"
+                    src={item?.imageUrl  
+  ? `http://localhost:8000${item?.imageUrl}` 
+  : "/image.png"}
                     alt="Product Image"
                     className="w-full h-full object-cover object-center transition-transform duration-500 hover:scale-105"
                   />
+                  
                 </div>
                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white text-center mb-2 line-clamp-2">
                   {item.name}

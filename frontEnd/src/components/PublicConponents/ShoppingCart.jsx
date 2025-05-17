@@ -133,7 +133,9 @@ export default function ShoppingCart() {
                     <div className="flex items-center gap-4">
                       <div className="w-24 h-24 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                         <img
-                          src={item.image || '/product-placeholder.jpg'}
+                          src={item?.imageUrl  
+  ? `http://localhost:8000${item?.imageUrl}` 
+  : "/image.png"}
                           alt={item.name}
                           className="w-full h-full object-contain p-2"
                         />

@@ -25,7 +25,7 @@ class ProductController extends Controller
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('products', 'public');
-            $validated['imageUrl'] = '/storage/' . $path;
+            $validated['imageUrl'] = '/storage/' . $path; // 👈 match the migration
         }
 
         $product = Product::create($validated);
@@ -50,9 +50,7 @@ class ProductController extends Controller
             'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
         ]);
 
-        // Handle image replacement
         if ($request->hasFile('image')) {
-            // Delete old image if exists
             if ($product->imageUrl && Storage::disk('public')->exists(str_replace('/storage/', '', $product->imageUrl))) {
                 Storage::disk('public')->delete(str_replace('/storage/', '', $product->imageUrl));
             }
@@ -62,15 +60,17 @@ class ProductController extends Controller
         }
 
         $product->update($validated);
-
         return response()->json($product);
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $product = Product::findOrFail($id);
+
         if ($product->imageUrl && Storage::disk('public')->exists(str_replace('/storage/', '', $product->imageUrl))) {
             Storage::disk('public')->delete(str_replace('/storage/', '', $product->imageUrl));
         }
+
         $product->delete();
         return response()->json(['message' => 'Product deleted']);
     }
@@ -107,8 +107,7 @@ class ProductController extends Controller
             }
         }
 
-        $products = $query->paginate(10);
-
+        $products = $query->with('category')->paginate(10);
         return response()->json($products);
     }
 }

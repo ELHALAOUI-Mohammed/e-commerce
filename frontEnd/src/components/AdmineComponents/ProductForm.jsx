@@ -15,12 +15,15 @@ export default function ProductForm() {
     });
 
     const [imageFile, setImageFile] = useState(null);
+    const [imageUrl, setImageUrl] = useState('');
     const [categories, setCategories] = useState([]);
 
     useEffect(() => {
+        // Fetch categories
         axiosClient.get('/categories')
             .then(({ data }) => setCategories(data));
 
+        // If editing, fetch existing product
         if (id) {
             axiosClient.get(`/products/${id}`).then(({ data }) => {
                 setFormData({
@@ -30,6 +33,7 @@ export default function ProductForm() {
                     stock: data.stock,
                     category_id: data.category_id,
                 });
+                setImageUrl(data.imageUrl || '');
             });
         }
     }, [id]);
@@ -39,45 +43,42 @@ export default function ProductForm() {
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-  const data = new FormData();
-  data.append('name', formData.name);
-  data.append('description', formData.description);
-  data.append('price', formData.price);
-  data.append('stock', formData.stock);
-  data.append('category_id', formData.category_id);
-  if (imageFile) {
-    data.append('image', imageFile);
-  }
+        const data = new FormData();
+        data.append('name', formData.name);
+        data.append('description', formData.description);
+        data.append('price', formData.price);
+        data.append('stock', formData.stock);
+        data.append('category_id', formData.category_id);
+        if (imageFile) {
+            data.append('image', imageFile);
+        }
 
-  try {
-    let response;
-    if (id) {
-      // PUT for editing (Laravel must support FormData with PUT/PATCH)
-      data.append('_method', 'PUT'); // spoof method
-      response = await axiosClient.post(`/products/${id}`, data, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-    } else {
-      // POST for new product
-      response = await axiosClient.post('/products', data, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-    }
+        try {
+            let response;
+            if (id) {
+                data.append('_method', 'PUT');
+                response = await axiosClient.post(`/products/${id}`, data, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+            } else {
+                response = await axiosClient.post('/products', data, {
+                    headers: { 'Content-Type': 'multipart/form-data' }
+                });
+            }
 
-    console.log('Success:', response.data);
-    navigate('/admin/products');
-  } catch (error) {
-    console.error('Error:', error.response?.data || error.message);
-  }
-};
-
+            console.log('Success:', response.data);
+            navigate('/admin/products');
+        } catch (error) {
+            console.error('Error:', error.response?.data || error.message);
+        }
+    };
 
     return (
         <div className="container mx-auto p-4">
-            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" encType='multipart/form-data'>
+            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" encType="multipart/form-data">
                 <h2 className="text-2xl font-bold mb-4">{id ? 'Modifier le produit' : 'Ajouter un produit'}</h2>
 
                 {/* Name */}
@@ -126,7 +127,7 @@ const handleSubmit = async (e) => {
                     />
                 </div>
 
-                {/* Image Upload */}
+                {/* Image File */}
                 <div className="mb-4">
                     <label htmlFor="image" className="block text-gray-700 text-sm font-bold mb-2">Image du produit</label>
                     <input
@@ -137,7 +138,19 @@ const handleSubmit = async (e) => {
                     />
                 </div>
 
-                {/* Category */}
+                {/* Existing Image Preview */}
+                {id && imageUrl && (
+                    <div className="mb-4">
+                        <label className="block text-gray-700 text-sm font-bold mb-2">Image actuelle</label>
+                        <img
+                            src={`http://localhost:8000${imageUrl}`}
+                            alt="Produit"
+                            className="h-32 object-cover rounded"
+                        />
+                    </div>
+                )}
+
+                {/* Category Select */}
                 <div className="mb-4">
                     <label htmlFor="category_id" className="block text-gray-700 text-sm font-bold mb-2">Catégorie</label>
                     <select
@@ -153,6 +166,7 @@ const handleSubmit = async (e) => {
                     </select>
                 </div>
 
+                {/* Submit / Cancel */}
                 <div className="flex items-center justify-between">
                     <button
                         type="submit"

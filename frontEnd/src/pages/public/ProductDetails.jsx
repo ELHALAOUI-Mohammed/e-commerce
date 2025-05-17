@@ -88,10 +88,13 @@ const handleIncrease = () => {
           {product?.imageUrl ? (
             <img
               className="w-full h-full object-cover transition-opacity duration-300 hover:opacity-90"
-              src={product?.imageUrl}
+             src={product?.imageUrl  
+  ? `http://localhost:8000${product?.imageUrl}` 
+  : "/image.png"}
               alt={product?.name}
               loading="lazy"
             />
+    
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
               <span className="text-gray-400 font-medium">Aucune image disponible</span>
@@ -105,12 +108,12 @@ const handleIncrease = () => {
             </div>
           )}
         </div>
-        <div className="grid grid-cols-4 gap-2">
-          {/* Thumbnail images would go here */}
+        {/* <div className="grid grid-cols-4 gap-2">
+        
           {[1,2,3,4].map((i) => (
             <div key={i} className="aspect-square bg-gray-200 rounded-md cursor-pointer hover:ring-2 hover:ring-indigo-500"></div>
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Product Details */}
