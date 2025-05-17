@@ -51,7 +51,7 @@ import {
       <Sidebar>
         <SidebarContent>
           <SidebarGroup>
-            <SidebarGroupLabel>Admin Panel</SidebarGroupLabel>
+            <SidebarGroupLabel>Panel de l'admin</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
                 {items.map((item) => (

@@ -90,201 +90,200 @@ export default function ProductsPage() {
     <div className="p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">All Products</h1>
-        <SearchBar query={query} setQuery={setQuery} />
+        <h1 className="text-2xl font-bold">Tous les produits</h1>
+        <SearchBar query={query} setQuery={setQuery} placeholder="Rechercher des produits..." />
       </div>
 
       {/* Category Filter */}
-<div className="flex items-center gap-2 mb-6 w-full">
- 
+      <div className="flex items-center gap-2 mb-6 w-full">
+        {/* Categories Carousel (scrollable) */}
+        <Carousel
+          opts={{
+            align: "start",
+            dragFree: true,
+          }}
+          className="w-[calc(100%-40px)]"
+        >
+          <CarouselContent className="-ml-1">
+            {categories.map((cat) => (
+              <CarouselItem key={cat.id} className="basis-auto pl-1">
+                <Button
+                  variant={selectedCategory === cat.id ? "default" : "outline"}
+                  size="sm"
+                  className="rounded-full whitespace-nowrap"
+                  onClick={() => {
+                    setSelectedCategory(cat.id);
+                    setCurrentPage(1);
+                  }}
+                >
+                  {cat.name}
+                </Button>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
 
-  {/* Categories Carousel (scrollable) */}
-  <Carousel
-    opts={{
-      align: "start",
-      dragFree: true,
-    }}
-    className="w-[calc(100%-40px)]" // Adjust width to account for clear button
-  >
-    <CarouselContent className="-ml-1">
-      {categories.map((cat) => (
-        <CarouselItem key={cat.id} className="basis-auto pl-1">
-          <Button
-            variant={selectedCategory === cat.id ? "default" : "outline"}
-            size="sm"
-            className="rounded-full whitespace-nowrap"
-            onClick={() => {
-              setSelectedCategory(cat.id);
-              setCurrentPage(1);
-            }}
-          >
-            {cat.name}
-          </Button>
-        </CarouselItem>
-      ))}
-    </CarouselContent>
-  </Carousel>
-
-   {selectedCategory && (
-    <div className="flex-shrink-0 animate-in fade-in slide-in-from-left-4 duration-200">
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-9 w-9 rounded-full bg-background hover:bg-accent group transition-all"
-              onClick={() => {
-                setSelectedCategory(null);
-                setCurrentPage(1);
-              }}
-            >
-              <AiOutlineClear className="h-4 w-4 text-muted-foreground group-hover:text-destructive group-hover:rotate-360 transition-all duration-600" />
-              <span className="sr-only">Clear filter</span>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom" className="text-xs font-medium">
-            <p>Clear filter</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
-    </div>
-  )}
-</div>
+        {selectedCategory && (
+          <div className="flex-shrink-0 animate-in fade-in slide-in-from-left-4 duration-200">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-9 w-9 rounded-full bg-background hover:bg-accent group transition-all"
+                    onClick={() => {
+                      setSelectedCategory(null);
+                      setCurrentPage(1);
+                    }}
+                  >
+                    <AiOutlineClear className="h-4 w-4 text-muted-foreground group-hover:text-destructive group-hover:rotate-360 transition-all duration-600" />
+                    <span className="sr-only">Effacer le filtre</span>
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent side="bottom" className="text-xs font-medium">
+                  <p>Effacer le filtre</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        )}
+      </div>
 
       {/* Sort */}
       <div className="flex justify-end mb-6">
-        <SortBy setSortBy={setSortBy} sortBy={sortBy}/>
+        <SortBy setSortBy={setSortBy} sortBy={sortBy} label="Trier par" />
       </div>
 
       {/* Loading state */}
       {loading ? (
-        <ProductLoading/>
+        <ProductLoading />
       ) : products.length > 0 ? (
         <>
           {/* Product Grid */}
           <div className="min-h-screen">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
-            {products.map((product) => (
-              <Cardd key={product?.id} product={product} />
-            ))}
-          </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
+              {products.map((product) => (
+                <Cardd key={product?.id} product={product} />
+              ))}
+            </div>
           </div>
 
           {/* Pagination */}
-      <div className="flex justify-center mt-8">
-  <Pagination>
-    <PaginationContent className="flex-wrap gap-1">
-      {/* Previous Button */}
-      {currentPage > 1 && (
-        <PaginationItem>
-          <PaginationPrevious 
-            className="h-10 w-10 rounded-lg border border-gray-200 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800"
-            onClick={() => setCurrentPage(currentPage - 1)}
-          />
-        </PaginationItem>
-      )}
+          <div className="flex justify-center mt-8">
+            <Pagination>
+              <PaginationContent className="flex-wrap gap-1">
+                {/* Previous Button */}
+                {currentPage > 1 && (
+                  <PaginationItem>
+                    <PaginationPrevious
+                      className="h-10 w-10 rounded-lg border border-gray-200 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800"
+                      onClick={() => setCurrentPage(currentPage - 1)}
+                      aria-label="Page précédente"
+                    />
+                  </PaginationItem>
+                )}
 
-      {/* Page Numbers */}
-      {Array.from({ length: Math.min(5, lastPage) }, (_, i) => {
-        // Show first, last, and surrounding pages
-        let pageNum;
-        if (lastPage <= 5) {
-          pageNum = i + 1;
-        } else if (currentPage <= 3) {
-          pageNum = i + 1;
-        } else if (currentPage >= lastPage - 2) {
-          pageNum = lastPage - 4 + i;
-        } else {
-          pageNum = currentPage - 2 + i;
-        }
+                {/* Page Numbers */}
+                {Array.from({ length: Math.min(5, lastPage) }, (_, i) => {
+                  let pageNum;
+                  if (lastPage <= 5) {
+                    pageNum = i + 1;
+                  } else if (currentPage <= 3) {
+                    pageNum = i + 1;
+                  } else if (currentPage >= lastPage - 2) {
+                    pageNum = lastPage - 4 + i;
+                  } else {
+                    pageNum = currentPage - 2 + i;
+                  }
 
-        return (
-          <PaginationItem key={pageNum}>
-            <PaginationLink
-              className={`h-10 w-10 rounded-lg border transition-colors ${
-                currentPage === pageNum
-                  ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90'
-                  : 'border-gray-200 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800'
-              }`}
-              onClick={() => setCurrentPage(pageNum)}
-            >
-              {pageNum}
-            </PaginationLink>
-          </PaginationItem>
-        );
-      })}
+                  return (
+                    <PaginationItem key={pageNum}>
+                      <PaginationLink
+                        className={`h-10 w-10 rounded-lg border transition-colors ${
+                          currentPage === pageNum
+                            ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90'
+                            : 'border-gray-200 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800'
+                        }`}
+                        onClick={() => setCurrentPage(pageNum)}
+                        aria-label={`Page ${pageNum}`}
+                      >
+                        {pageNum}
+                      </PaginationLink>
+                    </PaginationItem>
+                  );
+                })}
 
-      {/* Ellipsis for many pages */}
-      {lastPage > 5 && currentPage < lastPage - 2 && (
-        <PaginationItem>
-          <span className="h-10 w-10 flex items-center justify-center">...</span>
-        </PaginationItem>
-      )}
+                {/* Ellipsis for many pages */}
+                {lastPage > 5 && currentPage < lastPage - 2 && (
+                  <PaginationItem>
+                    <span className="h-10 w-10 flex items-center justify-center">...</span>
+                  </PaginationItem>
+                )}
 
-      {/* Last Page */}
-      {lastPage > 5 && currentPage < lastPage - 2 && (
-        <PaginationItem>
-          <PaginationLink
-            className={`h-10 w-10 rounded-lg border transition-colors ${
-              currentPage === lastPage
-                ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90'
-                : 'border-gray-200 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800'
-            }`}
-            onClick={() => setCurrentPage(lastPage)}
-          >
-            {lastPage}
-          </PaginationLink>
-        </PaginationItem>
-      )}
+                {/* Last Page */}
+                {lastPage > 5 && currentPage < lastPage - 2 && (
+                  <PaginationItem>
+                    <PaginationLink
+                      className={`h-10 w-10 rounded-lg border transition-colors ${
+                        currentPage === lastPage
+                          ? 'bg-primary text-primary-foreground border-primary hover:bg-primary/90'
+                          : 'border-gray-200 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800'
+                      }`}
+                      onClick={() => setCurrentPage(lastPage)}
+                      aria-label={`Page ${lastPage}`}
+                    >
+                      {lastPage}
+                    </PaginationLink>
+                  </PaginationItem>
+                )}
 
-      {/* Next Button */}
-      {currentPage < lastPage && (
-        <PaginationItem>
-          <PaginationNext
-            className="h-10 w-10 rounded-lg border border-gray-200 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800"
-            onClick={() => setCurrentPage(currentPage + 1)}
-          />
-        </PaginationItem>
-      )}
-    </PaginationContent>
-  </Pagination>
-</div>
+                {/* Next Button */}
+                {currentPage < lastPage && (
+                  <PaginationItem>
+                    <PaginationNext
+                      className="h-10 w-10 rounded-lg border border-gray-200 hover:bg-gray-100 dark:border-gray-800 dark:hover:bg-gray-800"
+                      onClick={() => setCurrentPage(currentPage + 1)}
+                      aria-label="Page suivante"
+                    />
+                  </PaginationItem>
+                )}
+              </PaginationContent>
+            </Pagination>
+          </div>
         </>
       ) : (
- <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-  <div className="mx-auto max-w-md space-y-4">
-    {/* Icon */}
-    <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="h-8 w-8 text-gray-400 dark:text-gray-500"
-      >
-        <circle cx="12" cy="12" r="10" />
-        <path d="M8 12h8" />
-      </svg>
-    </div>
+        <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
+          <div className="mx-auto max-w-md space-y-4">
+            {/* Icon */}
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-8 w-8 text-gray-400 dark:text-gray-500"
+              >
+                <circle cx="12" cy="12" r="10" />
+                <path d="M8 12h8" />
+              </svg>
+            </div>
 
-    {/* Text */}
-    <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-      No products available
-    </h3>
-    <p className="text-gray-500 dark:text-gray-400">
-      We couldn't find any products matching your criteria.
-    </p>
-
-
-  </div>
-</div>
+            {/* Text */}
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              Aucun produit disponible
+            </h3>
+            <p className="text-gray-500 dark:text-gray-400">
+              Aucun produit ne correspond à vos critères.
+            </p>
+          </div>
+        </div>
       )}
- </div>
-);
+    </div>
+  );
 }

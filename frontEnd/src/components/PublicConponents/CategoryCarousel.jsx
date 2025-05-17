@@ -45,7 +45,8 @@ const CategoryCarousel = ({ title, categories, loading }) => {
                       />
                     </div>
                     <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-200 text-center line-clamp-2">
-                      {category.name}
+                      {/* French translation for category name if needed */}
+                      {category.name_fr || category.name}
                     </h2>
                   </CardContent>
                 </Card>
@@ -57,8 +58,8 @@ const CategoryCarousel = ({ title, categories, loading }) => {
         <HomeLoading/>
       )}
     </CarouselContent>
-    <CarouselPrevious className="absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hidden group-hover:flex transition-opacity duration-300" />
-    <CarouselNext className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hidden group-hover:flex transition-opacity duration-300" />
+    <CarouselPrevious aria-label="Précédent" className="absolute left-2 top-1/2 -translate-y-1/2 h-10 w-10 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hidden group-hover:flex transition-opacity duration-300" />
+    <CarouselNext aria-label="Suivant" className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 bg-white dark:bg-gray-800 rounded-full shadow-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 hidden group-hover:flex transition-opacity duration-300" />
   </Carousel>
 </div>
   );

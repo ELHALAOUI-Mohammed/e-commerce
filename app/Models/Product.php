@@ -25,4 +25,13 @@ class Product extends Model
     {
         return $this->hasMany(Favorite::class);
     }
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
+
+    public function primaryImage()
+    {
+        return $this->images()->where('is_primary', true)->first();
+    }
 }

@@ -50,14 +50,14 @@ export const NavBarClient = () => {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="h-9 w-9">
                 {mobileMenuOpen ? <FaTimes /> : <FaBars />}
-                <span className="sr-only">Toggle menu</span>
+                <span className="sr-only">Ouvrir le menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] sm:w-[400px]">
               <div className="flex flex-col gap-6 py-6">
                 <Link to="/" className="flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
                   <img src="/image.png" className="h-8 w-auto" alt="Logo" />
-                  <span className="font-bold">YourBrand</span>
+                  <span className="font-bold">VotreMarque</span>
                 </Link>
                 <div className="flex flex-col gap-1">
                   {navLinks.map((link) => (
@@ -71,20 +71,26 @@ export const NavBarClient = () => {
                         }`}
                       >
                         {link.icon}
-                        {link.title}
+                        {link.title === 'Home'
+                          ? 'Accueil'
+                          : link.title === 'Products'
+                          ? 'Produits'
+                          : link.title === 'Categories'
+                          ? 'Catégories'
+                          : link.title}
                       </Link>
                     </SheetClose>
                   ))}
                   <SheetClose asChild>
                     <Link to='/customer/favorites' className="flex items-center py-2 px-3 rounded-lg text-sm hover:bg-accent/50">
-                      <FaHeart className="mr-2" /> Favorites
+                      <FaHeart className="mr-2" /> Favoris
                     </Link>
                   </SheetClose>
                 </div>
                 <div className="mt-4">
                   <SheetClose asChild>
                     <Button variant="destructive" onClick={logout} className="w-full">
-                      Logout
+                      Se déconnecter
                     </Button>
                   </SheetClose>
                 </div>
@@ -99,7 +105,7 @@ export const NavBarClient = () => {
         {/* Desktop logo */}
         <Link to="/" className="hidden md:flex items-center gap-2">
           <img src="/image.png" className="h-8 w-auto" alt="Logo" />
-          <span className="font-bold">YourBrand</span>
+          <span className="font-bold">VotreMarque</span>
         </Link>
 
         {/* Desktop nav */}
@@ -115,11 +121,17 @@ export const NavBarClient = () => {
               }`}
             >
               {link.icon}
-              {link.title}
+              {link.title === 'Home'
+                ? 'Accueil'
+                : link.title === 'Products'
+                ? 'Produits'
+                : link.title === 'Categories'
+                ? 'Catégories'
+                : link.title}
             </Link>
           ))}
           <Link to='/customer/favorites' className="flex items-center text-sm text-foreground/60 hover:text-primary">
-            <FaHeart className="mr-2" /> Favorites
+            <FaHeart className="mr-2" /> Favoris
           </Link>
         </div>
 
@@ -129,7 +141,7 @@ export const NavBarClient = () => {
             <DialogTrigger asChild>
               <Button variant="ghost" size="icon">
                 <FaCartShopping className="h-4 w-4" />
-                <span className="sr-only">Cart</span>
+                <span className="sr-only">Panier</span>
               </Button>
             </DialogTrigger>
             <DialogContent className="w-auto !max-w-fit">
@@ -140,14 +152,14 @@ export const NavBarClient = () => {
           {/* Profile Dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">Profile</Button>
+              <Button variant="outline">Profil</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem asChild>
-                <Link to="/profile">View Profile</Link>
+                <Link to="/profile">Voir le profil</Link>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={logout}>
-                Logout
+                Se déconnecter
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

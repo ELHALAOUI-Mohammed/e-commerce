@@ -30,8 +30,8 @@ export default function OrdersTable() {
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1">
               <div>
-                <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Order Management</h2>
-                <p className="text-sm text-muted-foreground mt-1">View and process customer orders</p>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Gestion des commandes</h2>
+                <p className="text-sm text-muted-foreground mt-1">Voir et traiter les commandes clients</p>
               </div>
             </div>
           </div>
@@ -42,8 +42,8 @@ export default function OrdersTable() {
           <Table className="min-w-[800px] sm:min-w-full">
             <TableHeader>
               <TableRow>
-                <TableHead>Order ID</TableHead>
-                <TableHead>Status</TableHead>
+                <TableHead>ID Commande</TableHead>
+                <TableHead>Statut</TableHead>
                 <TableHead className="text-right">Total</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>

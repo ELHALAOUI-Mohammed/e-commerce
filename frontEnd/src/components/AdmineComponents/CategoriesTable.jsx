@@ -51,13 +51,13 @@ export default function CategoriesTable() {
         <div className="flex flex-col gap-4 mb-6">
           <div className="flex flex-col sm:flex-row gap-3 justify-between">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Categories</h2>
-              <p className="text-sm text-muted-foreground">Manage product categories</p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Catégories</h2>
+              <p className="text-sm text-muted-foreground">Gérer les catégories de produits</p>
             </div>
             <Button asChild>
               <Link to="/admin/categories/add" className="flex items-center gap-2">
                 <FiPlus className="h-4 w-4" />
-                <span className="hidden sm:inline">Add Category</span>
+                <span className="hidden sm:inline">Ajouter une catégorie</span>
               </Link>
             </Button>
           </div>
@@ -71,9 +71,9 @@ export default function CategoriesTable() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[80px]">ID</TableHead>
-                    <TableHead>Name</TableHead>
+                    <TableHead>Nom</TableHead>
                     <TableHead className="hidden md:table-cell">Description</TableHead>
-                    <TableHead className="text-center">Products</TableHead>
+                    <TableHead className="text-center">Produits</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -105,7 +105,7 @@ export default function CategoriesTable() {
                             onClick={() => navigate(`/admin/categories/edit/${category.id}`)}
                           >
                             <FiEdit2 className="mr-2 h-4 w-4" />
-                            Edit
+                            Modifier
                           </Button>
                           <Button
                             variant="ghost"
@@ -114,7 +114,7 @@ export default function CategoriesTable() {
                             onClick={() => deleteCategory(category.id)}
                           >
                             <FiTrash2 className="mr-2 h-4 w-4" />
-                            Delete
+                            Supprimer
                           </Button>
                         </div>
                       </TableCell>
@@ -127,20 +127,20 @@ export default function CategoriesTable() {
             {/* Optional Pagination */}
             <div className="flex items-center justify-end space-x-2 py-4">
               <Button variant="outline" size="sm" disabled>
-                Previous
+                Précédent
               </Button>
               <Button variant="outline" size="sm">
-                Next
+                Suivant
               </Button>
             </div>
           </>
         ) : (
           <div className="flex flex-col items-center justify-center py-12 gap-4">
-            <div className="text-muted-foreground">No categories found</div>
+            <div className="text-muted-foreground">Aucune catégorie trouvée</div>
             <Button asChild>
               <Link to="/admin/categories/add">
                 <FiPlus className="mr-2 h-4 w-4" />
-                Add your first category
+                Ajouter votre première catégorie
               </Link>
             </Button>
           </div>

@@ -35,22 +35,22 @@ const Homepage = () => {
     <div>
       <Hero />
       <CategoryCarousel
-  title="Browse by Category"
-  categories={categories}
-  loading={loading}
-/>
+        title="Parcourir par catégorie"
+        categories={categories}
+        loading={loading}
+      />
 
-<CarouselHome
-  title="Newest Products"
-  items={newestProducts}
-  loading={loading}
-/>
+      <CarouselHome
+        title="Nouveaux produits"
+        items={newestProducts}
+        loading={loading}
+      />
 
-<CarouselHome
-  title="Cheapest Products"
-  items={cheapestProducts}
-  loading={loading}
-/>
+      <CarouselHome
+        title="Produits les moins chers"
+        items={cheapestProducts}
+        loading={loading}
+      />
 
     </div>
   );

@@ -94,13 +94,13 @@ const handleIncrease = () => {
             />
           ) : (
             <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-              <span className="text-gray-400 font-medium">No Image Available</span>
+              <span className="text-gray-400 font-medium">Aucune image disponible</span>
             </div>
           )}
           {product?.stock <= 0 && (
             <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
               <span className="bg-white px-4 py-2 rounded-full text-sm font-semibold text-gray-800 shadow-sm">
-                Out of Stock
+                Rupture de stock
               </span>
             </div>
           )}
@@ -123,7 +123,7 @@ const handleIncrease = () => {
             <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
               product?.stock > 0 ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
             }`}>
-              {product?.stock > 0 ? 'In Stock' : 'Sold Out'}
+              {product?.stock > 0 ? 'En stock' : 'Épuisé'}
             </span>
           </div>
 
@@ -136,13 +136,13 @@ const handleIncrease = () => {
                 </svg>
               ))}
             </div>
-            <span className="text-gray-500 text-sm">(24 reviews)</span> */}
+            <span className="text-gray-500 text-sm">(24 avis)</span> */}
           </div>
 
           <div className="mt-6">
-            <h2 className="sr-only">Product information</h2>
+            <h2 className="sr-only">Informations sur le produit</h2>
             <p className="text-4xl font-bold text-gray-900">
-              ${product?.price.toFixed(2)}
+              {product ? product.price.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' }) : ''}
             </p>
             
           </div>
@@ -159,12 +159,12 @@ const handleIncrease = () => {
           </div>
 
           <div className="mt-8 border-t border-gray-200 pt-6">
-            <h3 className="text-sm font-medium text-gray-900">Details</h3>
+            <h3 className="text-sm font-medium text-gray-900">Détails</h3>
             <div className="mt-4 space-y-2">
               <div className="flex">
-                <span className="text-gray-500 w-32">Availability</span>
+                <span className="text-gray-500 w-32">Disponibilité</span>
                 <span className="text-gray-900">
-                  {product?.stock > 0 ? ` available` : 'Out of stock'}
+                  {product?.stock > 0 ? ` disponible` : 'Rupture de stock'}
                 </span>
               </div>
               {/* <div className="flex">
@@ -172,7 +172,7 @@ const handleIncrease = () => {
                 <span className="text-gray-900">PRD-{product?.id || '0000'}</span>
               </div> */}
               <div className="flex">
-                <span className="text-gray-500 w-32">Category</span>
+                <span className="text-gray-500 w-32">Catégorie</span>
                 <span className="text-gray-900">{product?.category?.name}</span>
               </div>
             </div>
@@ -207,7 +207,7 @@ const handleIncrease = () => {
               }`}
               disabled={product?.stock <= 0}
             >
-              {product?.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+              {product?.stock > 0 ? 'Ajouter au panier' : 'Rupture de stock'}
             </button> */}
             <Button
           size="sm"
@@ -216,7 +216,7 @@ const handleIncrease = () => {
           onClick={handleAddToCart}
         >
           <ShoppingCart className="h-5 w-5" />
-                {product?.stock > 0 ? 'Add to Cart' : 'Out of Stock'}
+                {product?.stock > 0 ? 'Ajouter au panier' : 'Rupture de stock'}
           </Button>
           </div>
           <FavoriteButton productId={product?.id}  />

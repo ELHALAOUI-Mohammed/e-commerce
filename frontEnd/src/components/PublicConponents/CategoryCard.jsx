@@ -8,14 +8,14 @@ export default function CategoryCard({ category, productCount, imageUrl }) {
     <Card className="cursor-pointer hover:shadow-lg transition">
       <CardHeader>
         <img
-        src={imageUrl || `/category.png`} 
+          src={imageUrl || `/category.png`} 
           alt={category.name}
           className="w-full h-32 object-cover rounded-lg"
         />
       </CardHeader>
       <CardContent className="text-center"> 
         <CardTitle className="text-lg">{category.name}</CardTitle>
-        <p className="text-sm text-gray-500">{productCount} products</p>
+        <p className="text-sm text-gray-500">{productCount} produits</p>
       </CardContent>
     </Card>
   );

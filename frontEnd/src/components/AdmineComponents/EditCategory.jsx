@@ -48,15 +48,15 @@ console.log(formData);  // Log the form data before sending it
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto p-4 border rounded-lg">
-      <h2 className="text-xl font-semibold mb-4">Edit Category</h2>
+      <h2 className="text-xl font-semibold mb-4">Modifier la catégorie</h2>
       <div>
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">Nom</Label>
         <Input
           id="name"
           name="name"
           value={formData.name}
           onChange={handleChange}
-          placeholder="Enter category name"
+          placeholder="Entrez le nom de la catégorie"
           required
           className="mt-1"
         />
@@ -68,13 +68,13 @@ console.log(formData);  // Log the form data before sending it
           name="description"
           value={formData.description}
           onChange={handleChange}
-          placeholder="Enter category description"
+          placeholder="Entrez la description de la catégorie"
           required
           className="mt-1"
         />
       </div>
       <div className="flex justify-end space-x-2 pt-2">
-        <Button type="submit">Update</Button>
+        <Button type="submit">Mettre à jour</Button>
       </div>
     </form>
   );

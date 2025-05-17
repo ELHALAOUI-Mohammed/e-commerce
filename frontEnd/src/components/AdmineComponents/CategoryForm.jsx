@@ -35,15 +35,15 @@ export default function CategoryForm({ onSubmitSuccess, onCancel }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-md mx-auto p-4 border rounded-lg">
-      <h2 className="text-xl font-semibold mb-4">Add a New Category</h2>
+      <h2 className="text-xl font-semibold mb-4">Ajouter une nouvelle catégorie</h2>
       <div>
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">Nom</Label>
         <Input
           id="name"
           name="name"
           value={formData.name}
           onChange={handleChange}
-          placeholder="Enter category name"
+          placeholder="Entrez le nom de la catégorie"
           required
           className="mt-1"
         />
@@ -55,7 +55,7 @@ export default function CategoryForm({ onSubmitSuccess, onCancel }) {
           name="description"
           value={formData.description}
           onChange={handleChange}
-          placeholder="Enter category description"
+          placeholder="Entrez la description de la catégorie"
           required
           className="mt-1"
         />
@@ -63,10 +63,10 @@ export default function CategoryForm({ onSubmitSuccess, onCancel }) {
       <div className="flex justify-end space-x-2 pt-2">
         {onCancel && (
           <Button type="button" variant="outline" onClick={onCancel}>
-            Cancel
+            Annuler
           </Button>
         )}
-        <Button type="submit">Save</Button>
+        <Button type="submit">Enregistrer</Button>
       </div>
     </form>
   );

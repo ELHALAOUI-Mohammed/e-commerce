@@ -41,69 +41,73 @@ export default function OrderDetails() {
     }
   };
 
-  if (!order) return <div className="p-4">Loading...</div>;
+if (!order) return <div className="p-4">Chargement...</div>;
 
-  return (
+return (
     <div className="p-6 max-w-5xl mx-auto">
-      <h2 className="text-3xl font-bold mb-4">Order Details - #{order.id}</h2>
+        <h2 className="text-3xl font-bold mb-4">Détails de la commande - #{order.id}</h2>
 
-      <div className="mb-6 space-y-2">
-        <div><strong>Date:</strong> {new Date(order.created_at).toLocaleString()}</div>
-        <div><strong>Status:</strong> 
-          <Badge className="ml-2" variant={
-            order.status === "completed" ? "success" :
-            order.status === "processing" ? "info" :
-            order.status === "cancelled" ? "destructive" : "warning"
-          }>
-            {order.status}
-          </Badge>
+        <div className="mb-6 space-y-2">
+            <div><strong>Date :</strong> {new Date(order.created_at).toLocaleString("fr-FR")}</div>
+            <div><strong>Statut :</strong> 
+                <Badge className="ml-2" variant={
+                    order.status === "completed" ? "success" :
+                    order.status === "processing" ? "info" :
+                    order.status === "cancelled" ? "destructive" : "warning"
+                }>
+                    {order.status === "pending" && "En attente"}
+                    {order.status === "completed" && "Terminée"}
+                    {order.status === "processing" && "En cours"}
+                    {order.status === "cancelled" && "Annulée"}
+                    {!["pending", "completed", "processing", "cancelled"].includes(order.status) && order.status}
+                </Badge>
+            </div>
+            <div><strong>Total :</strong> {parseFloat(order.totalAmount).toFixed(2)} €</div>
         </div>
-        <div><strong>Total:</strong> ${parseFloat(order.totalAmount).toFixed(2)}</div>
-      </div>
 
-      {/* User Info */}
-      {order.user && (
-        <div className="mb-6 border p-4 rounded-md bg-muted">
-          <h3 className="font-semibold text-lg mb-2">Customer Info</h3>
-          <p><strong>Name:</strong> {order.user.name}</p>
-          <p><strong>Email:</strong> {order.user.email}</p>
+        {/* Infos utilisateur */}
+        {order.user && (
+            <div className="mb-6 border p-4 rounded-md bg-muted">
+                <h3 className="font-semibold text-lg mb-2">Informations du client</h3>
+                <p><strong>Nom :</strong> {order.user.name}</p>
+                <p><strong>Email :</strong> {order.user.email}</p>
+            </div>
+        )}
+
+        {/* Tableau des articles */}
+        <div className="mb-6">
+            <h3 className="font-semibold text-lg mb-2">Articles commandés</h3>
+            <Table>
+                <TableHeader>
+                    <TableRow>
+                        <TableHead>Produit</TableHead>
+                        <TableHead>Quantité</TableHead>
+                        <TableHead className="text-right">Prix unitaire</TableHead>
+                        <TableHead className="text-right">Sous-total</TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody>
+                    {order.order_items?.map((item) => (
+                        <TableRow key={item.id}>
+                            <TableCell>{item.product?.name || "Produit inconnu"}</TableCell>
+                            <TableCell>{item.quantity}</TableCell>
+                            <TableCell className="text-right">{parseFloat(item.unitPrice).toFixed(2)} €</TableCell>
+                            <TableCell className="text-right">
+                                {(item.quantity * item.unitPrice).toFixed(2)} €
+                            </TableCell>
+                        </TableRow>
+                    ))}
+                </TableBody>
+            </Table>
         </div>
-      )}
 
-      {/* Items Table */}
-      <div className="mb-6">
-        <h3 className="font-semibold text-lg mb-2">Ordered Items</h3>
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Product</TableHead>
-              <TableHead>Quantity</TableHead>
-              <TableHead className="text-right">Unit Price</TableHead>
-              <TableHead className="text-right">Subtotal</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {order.order_items?.map((item) => (
-              <TableRow key={item.id}>
-                <TableCell>{item.product?.name || "Unknown Product"}</TableCell>
-                <TableCell>{item.quantity}</TableCell>
-                <TableCell className="text-right">${parseFloat(item.unitPrice).toFixed(2)}</TableCell>
-                <TableCell className="text-right">
-                  ${(item.quantity * item.unitPrice).toFixed(2)}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-
-      {/* Action Buttons */}
-      {order?.status === "pending" && 
-      <div className="flex gap-4">
-        <Button variant="destructive" onClick={handleCancel}>Cancel</Button>
-        <Button variant="success" onClick={handleAccept}>Agree</Button>
-      </div>
-      }
+        {/* Boutons d'action */}
+        {order?.status === "pending" && 
+        <div className="flex gap-4">
+            <Button variant="destructive" onClick={handleCancel}>Annuler</Button>
+            <Button variant="success" onClick={handleAccept}>Accepter</Button>
+        </div>
+        }
     </div>
-  );
+);
 }

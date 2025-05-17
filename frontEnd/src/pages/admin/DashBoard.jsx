@@ -14,7 +14,7 @@ export default function DashBoard () {
     
     return(
     <>
-        <p>this is the DashBoard</p>
+        <p>Voici le tableau de bord.</p>
         
         <button onClick={logout}>log out</button>
         </>

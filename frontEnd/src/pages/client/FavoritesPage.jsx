@@ -44,7 +44,7 @@ export default function FavoritePage() {
   if (!user) {
     return (
       <div className="p-6 max-w-4xl mx-auto text-center text-red-600">
-        Please log in to view your favorites.
+        Veuillez vous connecter pour voir vos favoris.
       </div>
     );
   }
@@ -63,12 +63,12 @@ export default function FavoritePage() {
         </div>
       )}
 
-      <h1 className="text-2xl font-bold mb-6">My Favorite Products</h1>
+      <h1 className="text-2xl font-bold mb-6">Mes produits favoris</h1>
 
       {loading ? (
-        <div className="text-center text-gray-500">Loading favorites...</div>
+        <div className="text-center text-gray-500">Chargement des favoris...</div>
       ) : favorites.length === 0 ? (
-        <div className="text-center text-gray-500">You have no favorites yet.</div>
+        <div className="text-center text-gray-500">Vous n'avez pas encore de favoris.</div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {favorites.map((fav) => (
@@ -76,7 +76,7 @@ export default function FavoritePage() {
               key={fav.product.id}
               className="border rounded-lg p-4 shadow hover:shadow-lg transition"
             >
-              {/* You can replace this with <Cardd product={fav.product} /> if available */}
+              {/* Vous pouvez remplacer ceci par <Cardd product={fav.product} /> si disponible */}
               <img
                 src={fav.product.image_url || "/placeholder.jpg"}
                 alt={fav.product.name}
@@ -84,18 +84,18 @@ export default function FavoritePage() {
               />
               <h2 className="text-lg font-semibold">{fav.product.name}</h2>
               <p className="text-sm text-gray-600 mb-2">{fav.product.description}</p>
-              <p className="text-primary font-bold mb-2">${fav.product.price}</p>
+              <p className="text-primary font-bold mb-2">{fav.product.price} €</p>
 
               <div className="flex justify-between items-center">
                 <Link to={`/customer/product/${fav.product.id}`} className="text-sm text-blue-500">
-                  View Product
+                  Voir le produit
                 </Link>
                 <Button
                   variant="destructive"
                   size="sm"
                   onClick={() => removeFavorite(fav.product.id)}
                 >
-                  Remove
+                  Retirer
                 </Button>
               </div>
             </div>

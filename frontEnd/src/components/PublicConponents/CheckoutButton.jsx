@@ -29,7 +29,7 @@ export default function CheckoutButton({ userId, onCheckoutSuccess }) {
       disabled={loading}
       className="w-full h-14 bg-primary hover:bg-primary/90 text-lg"
     >
-      {loading ? "Processing..." : "Proceed to Checkout"}
+      {loading ? "Traitement en cours..." : "Passer à la commande"}
     </Button>
   );
 }

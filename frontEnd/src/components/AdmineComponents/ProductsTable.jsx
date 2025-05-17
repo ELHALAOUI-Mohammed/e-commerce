@@ -43,114 +43,114 @@ export default function ProductsTable() {
     }, []);
 
     return (
-  <div className="flex justify-center w-full px-4">
-  <div className="container flex flex-col justify-center w-full max-w-6xl px-2 sm:px-4 py-4 sm:py-6">
+    <div className="flex justify-center w-full px-4">
+    <div className="container flex flex-col justify-center w-full max-w-6xl px-2 sm:px-4 py-4 sm:py-6">
     {/* Header Section */}
     <div className="flex flex-col gap-4 mb-6">
       {/* Search and Add Product */}
       <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
-          <div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Product Management</h2>
-            <p className="text-sm text-muted-foreground mt-1">Manage your product inventory</p>
-          </div>
+      <div className="relative flex-1">
+        <div>
+        <h2 className="text-2xl sm:text-3xl font-bold text-foreground">Gestion des produits</h2>
+        <p className="text-sm text-muted-foreground mt-1">Gérez votre inventaire de produits</p>
         </div>
-        <Button asChild className="shrink-0">
-          <Link to="/admin/products/add" className="flex items-center gap-2">
-            <FiPlus className="h-4 w-4" />
-            <span className="hidden sm:inline">Add Product</span>
-          </Link>
-        </Button>
+      </div>
+      <Button asChild className="shrink-0">
+        <Link to="/admin/products/add" className="flex items-center gap-2">
+        <FiPlus className="h-4 w-4" />
+        <span className="hidden sm:inline">Ajouter un produit</span>
+        </Link>
+      </Button>
       </div>
     </div>
 
     {/* Table Section */}
     {loading ? (
       <div className="space-y-2">
-        <Skeleton className="h-10 w-full rounded-md" />
-        {[...Array(5)].map((_, i) => (
-          <Skeleton key={i} className="h-16 w-full rounded-md" />
-        ))}
+      <Skeleton className="h-10 w-full rounded-md" />
+      {[...Array(5)].map((_, i) => (
+        <Skeleton key={i} className="h-16 w-full rounded-md" />
+      ))}
       </div>
     ) : (
       <div className="rounded-md border shadow-sm overflow-x-auto">
-        <Table className="min-w-[800px] sm:min-w-full">
-          <TableHeader>
-            <TableRow>
-              <TableHead className="w-[80px]">ID</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead className="hidden md:table-cell">Description</TableHead>
-              <TableHead>Price</TableHead>
-              <TableHead>Stock</TableHead>
-              <TableHead className="hidden sm:table-cell">Category</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {products.map((product) => (
-              <TableRow key={product.id} className="hover:bg-muted/50">
-                <TableCell className="font-medium">{product.id}</TableCell>
-                <TableCell className="font-medium">
-                  {product.name}
-                  <div className="md:hidden text-sm text-muted-foreground mt-1 line-clamp-2">
-                    {product.description}
-                  </div>
-                </TableCell>
-                <TableCell className="hidden md:table-cell text-muted-foreground max-w-[200px] truncate">
-                  {product.description}
-                </TableCell>
-                <TableCell className="font-semibold">
-                  ${parseFloat(product.price).toFixed(2)}
-                </TableCell>
-                <TableCell>
-                  <Badge variant={product.stock > 10 ? "success" : "warning"}>
-                    {product.stock}
-                  </Badge>
-                </TableCell>
-                <TableCell className="hidden sm:table-cell text-muted-foreground">
-                  {product.category?.name || (
-                    <span className="text-destructive">No Category</span>
-                  )}
-                </TableCell>
-                <TableCell className="text-right">
-                  <div className="flex justify-end gap-1 sm:gap-2">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3"
-                      onClick={() => navigate(`/admin/products/edit/${product.id}`)}
-                    >
-                      <FiEdit2 className="h-4 w-4" />
-                      <span className="hidden sm:ml-2 sm:inline">Edit</span>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3 text-destructive hover:text-destructive"
-                      onClick={() => deleteProduct(product.id)}
-                    >
-                      <FiTrash2 className="h-4 w-4" />
-                      <span className="hidden sm:ml-2 sm:inline">Delete</span>
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+      <Table className="min-w-[800px] sm:min-w-full">
+        <TableHeader>
+        <TableRow>
+          <TableHead className="w-[80px]">ID</TableHead>
+          <TableHead>Nom</TableHead>
+          <TableHead className="hidden md:table-cell">Description</TableHead>
+          <TableHead>Prix</TableHead>
+          <TableHead>Stock</TableHead>
+          <TableHead className="hidden sm:table-cell">Catégorie</TableHead>
+          <TableHead className="text-right">Actions</TableHead>
+        </TableRow>
+        </TableHeader>
+        <TableBody>
+        {products.map((product) => (
+          <TableRow key={product.id} className="hover:bg-muted/50">
+          <TableCell className="font-medium">{product.id}</TableCell>
+          <TableCell className="font-medium">
+            {product.name}
+            <div className="md:hidden text-sm text-muted-foreground mt-1 line-clamp-2">
+            {product.description}
+            </div>
+          </TableCell>
+          <TableCell className="hidden md:table-cell text-muted-foreground max-w-[200px] truncate">
+            {product.description}
+          </TableCell>
+          <TableCell className="font-semibold">
+            {parseFloat(product.price).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' })}
+          </TableCell>
+          <TableCell>
+            <Badge variant={product.stock > 10 ? "success" : "warning"}>
+            {product.stock}
+            </Badge>
+          </TableCell>
+          <TableCell className="hidden sm:table-cell text-muted-foreground">
+            {product.category?.name || (
+            <span className="text-destructive">Aucune catégorie</span>
+            )}
+          </TableCell>
+          <TableCell className="text-right">
+            <div className="flex justify-end gap-1 sm:gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3"
+              onClick={() => navigate(`/admin/products/edit/${product.id}`)}
+            >
+              <FiEdit2 className="h-4 w-4" />
+              <span className="hidden sm:ml-2 sm:inline">Modifier</span>
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-8 w-8 p-0 sm:h-9 sm:w-auto sm:px-3 text-destructive hover:text-destructive"
+              onClick={() => deleteProduct(product.id)}
+            >
+              <FiTrash2 className="h-4 w-4" />
+              <span className="hidden sm:ml-2 sm:inline">Supprimer</span>
+            </Button>
+            </div>
+          </TableCell>
+          </TableRow>
+        ))}
+        </TableBody>
+      </Table>
       </div>
     )}
 
     {/* Pagination (optional) */}
     <div className="flex items-center justify-end space-x-2 py-4">
       <Button variant="outline" size="sm" disabled>
-        Previous
+      Précédent
       </Button>
       <Button variant="outline" size="sm">
-        Next
+      Suivant
       </Button>
     </div>
+    </div>
   </div>
-</div>
-);
+  );
 }

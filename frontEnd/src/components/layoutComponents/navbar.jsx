@@ -56,7 +56,7 @@ export const NavBar = () => {
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="h-9 w-9">
                 {mobileMenuOpen ? <FaTimes /> : <FaBars />}
-                <span className="sr-only">Toggle menu</span>
+                <span className="sr-only">Ouvrir le menu</span>
               </Button>
             </SheetTrigger>
             <SheetContent side="left" className="w-[300px] sm:w-[400px]">
@@ -67,7 +67,7 @@ export const NavBar = () => {
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   <img src="/image.png" className="h-8 w-auto" alt="Logo" />
-                  <span className="font-bold">YourBrand</span>
+                  <span className="font-bold">VotreMarque</span>
                 </Link>
                 <div className="flex flex-col gap-1">
                   {navLinks.map((link) => (
@@ -81,7 +81,10 @@ export const NavBar = () => {
                         }`}
                       >
                         {link.icon}
-                        {link.title}
+                        {/* Translate nav titles */}
+                        {link.title === 'Home' && 'Accueil'}
+                        {link.title === 'Products' && 'Produits'}
+                        {link.title === 'Categories' && 'Catégories'}
                       </Link>
                     </SheetClose>
                   ))}
@@ -90,7 +93,11 @@ export const NavBar = () => {
                   {actionButtons.map((btn) => (
                     <SheetClose asChild key={btn.to}>
                       <Button variant={btn.variant} asChild>
-                        <Link to={btn.to}>{btn.label}</Link>
+                        {/* Translate button labels */}
+                        <Link to={btn.to}>
+                          {btn.label === 'Signup' && 'Inscription'}
+                          {btn.label === 'Login' && 'Connexion'}
+                        </Link>
                       </Button>
                     </SheetClose>
                   ))}
@@ -106,7 +113,7 @@ export const NavBar = () => {
         {/* Desktop logo */}
         <Link to="/" className="hidden md:flex items-center gap-2">
           <img src="/image.png" className="h-8 w-auto" alt="Logo" />
-          <span className="font-bold">YourBrand</span>
+          <span className="font-bold">VotreMarque</span>
         </Link>
 
         {/* Desktop navigation */}
@@ -122,7 +129,10 @@ export const NavBar = () => {
               }`}
             >
               {link.icon}
-              {link.title}
+              {/* Translate nav titles */}
+              {link.title === 'Home' && 'Accueil'}
+              {link.title === 'Products' && 'Produits'}
+              {link.title === 'Categories' && 'Catégories'}
             </Link>
           ))}
         </div>
@@ -135,7 +145,7 @@ export const NavBar = () => {
             <DialogTrigger asChild>
               <Button variant="ghost" size="icon">
                 <FaCartShopping className="h-4 w-4" />
-                <span className="sr-only">Cart</span>
+                <span className="sr-only">Panier</span>
               </Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
@@ -146,7 +156,11 @@ export const NavBar = () => {
           <div className="hidden sm:flex items-center gap-2">
             {actionButtons.map((btn) => (
               <Button key={btn.to} variant={btn.variant} asChild>
-                <Link to={btn.to}>{btn.label}</Link>
+                {/* Translate button labels */}
+                <Link to={btn.to}>
+                  {btn.label === 'Signup' && 'Inscription'}
+                  {btn.label === 'Login' && 'Connexion'}
+                </Link>
               </Button>
             ))}
           </div>

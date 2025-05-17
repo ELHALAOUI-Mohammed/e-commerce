@@ -41,9 +41,9 @@ const url = (id) => user?.role === 'customer'
     <div className="p-6">
       {/* Header */}
       <div className="mb-8 text-center">
-        <h1 className="text-3xl font-bold mb-2">Categories</h1>
+        <h1 className="text-3xl font-bold mb-2">Catégories</h1>
         <p className="text-gray-600">
-          Browse all available categories and discover products
+          Parcourez toutes les catégories disponibles et découvrez les produits
         </p>
       </div>
 
@@ -63,13 +63,13 @@ const url = (id) => user?.role === 'customer'
 
             return (
               <Link to={url(category.id) }>
-              <CategoryCard
-                key={category.id}
-                category={category}
-                productCount={category.products_count}
-                imageUrl={firstImage}
+                <CategoryCard
+                  key={category.id}
+                  category={category}
+                  productCount={category.products_count}
+                  imageUrl={firstImage}
                 />
-                </Link>
+              </Link>
             );
           })}
         </div>

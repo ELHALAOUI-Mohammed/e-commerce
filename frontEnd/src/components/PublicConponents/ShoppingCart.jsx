@@ -77,9 +77,9 @@ export default function ShoppingCart() {
  <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
   {/* Cart Header */}
   <div className="mb-8">
-    <h1 className="text-3xl font-bold text-gray-900 ">Your Shopping Cart</h1>
+    <h1 className="text-3xl font-bold text-gray-900 ">Votre panier</h1>
     <div className="flex items-center mt-2 text-sm text-gray-500">
-      <span>{cartItems.length} {cartItems.length === 1 ? 'item' : 'items'}</span>
+      <span>{cartItems.length} {cartItems.length === 1 ? 'article' : 'articles'}</span>
       {cartItems.length > 0 && (
         <>
           <span className="mx-2">•</span>
@@ -87,7 +87,7 @@ export default function ShoppingCart() {
             onClick={clearCart}
             className="text-red-500 hover:text-red-600 underline"
           >
-            Clear cart
+            Vider le panier
           </button>
         </>
       )}
@@ -105,13 +105,13 @@ export default function ShoppingCart() {
       ) : cartItems.length === 0 ? (
         <div className="bg-white rounded-xl p-12 text-center">
           <ShoppingBag className="mx-auto h-16 w-16 text-gray-300" />
-          <h3 className="mt-4 text-lg font-medium text-gray-900">Your cart is empty</h3>
-          <p className="mt-2 text-gray-500">Start shopping to add items to your cart</p>
+          <h3 className="mt-4 text-lg font-medium text-gray-900">Votre panier est vide</h3>
+          <p className="mt-2 text-gray-500">Commencez vos achats pour ajouter des articles à votre panier</p>
           <Button 
             onClick={() => navigate('/')} 
             className="mt-6 bg-primary hover:bg-primary/90"
           >
-            Continue Shopping
+            Continuer vos achats
           </Button>
         </div>
       ) : (
@@ -119,9 +119,9 @@ export default function ShoppingCart() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Product</th>
-                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Price</th>
-                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Quantity</th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Produit</th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Prix</th>
+                <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Quantité</th>
                 <th className="px-6 py-4 text-left text-sm font-medium text-gray-500">Total</th>
                 <th className="px-6 py-4 text-left text-sm font-medium text-gray-500"></th>
               </tr>
@@ -140,7 +140,7 @@ export default function ShoppingCart() {
                       </div>
                       <div>
                         <p className="font-medium text-gray-900">{item.name}</p>
-                        <p className="text-sm text-gray-500 mt-1">{item.color || 'Color'} • {item.size || 'One Size'}</p>
+                        <p className="text-sm text-gray-500 mt-1">{item.color || 'Couleur'} • {item.size || 'Taille unique'}</p>
                       </div>
                     </div>
                   </td>
@@ -191,16 +191,16 @@ export default function ShoppingCart() {
     {cartItems.length > 0 && (
       <div className="lg:w-1/3">
         <div className="bg-white rounded-xl shadow-sm p-8 sticky top-4">
-          <h2 className="text-xl font-semibold mb-6">Order Summary</h2>
+          <h2 className="text-xl font-semibold mb-6">Résumé de la commande</h2>
           
           <div className="space-y-4 mb-6">
             <div className="flex justify-between">
-              {/* <span className="text-gray-600">Subtotal ({cartItems.reduce((acc, item) => acc + item.pivot.quantity, 0)} items)</span>
+              {/* <span className="text-gray-600">Sous-total ({cartItems.reduce((acc, item) => acc + item.pivot.quantity, 0)} articles)</span>
               <span className="font-medium">{subtotal.toFixed(2)} DH</span> */}
             </div>
             <div className="flex justify-between">
-              <span className="text-gray-600">Shipping</span>
-              <span className="text-green-600">Free</span>
+              <span className="text-gray-600">Livraison</span>
+              <span className="text-green-600">Gratuite</span>
             </div>
           </div>
 
@@ -217,7 +217,7 @@ export default function ShoppingCart() {
             onClick={() => navigate('/checkout')} 
             className="w-full h-14 bg-primary hover:bg-primary/90 text-lg"
           >
-            Proceed to Order
+            Passer la commande
           </Button> */}
         <CheckoutButton
   userId={user.id}
@@ -230,7 +230,7 @@ export default function ShoppingCart() {
           <div className="mt-6 pt-6 border-t">
             <div className="flex items-center justify-center gap-2 text-gray-500">
               <Shield className="h-5 w-5 text-green-500" />
-              <span className="text-sm">Secure shopping guaranteed</span>
+              <span className="text-sm">Achat sécurisé garanti</span>
             </div>
           </div>
         </div>

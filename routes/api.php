@@ -12,15 +12,25 @@ use App\Http\Controllers\AuthController;
 
  
 // Products
-Route::get('/products', [ProductController::class, 'index']);
-Route::get('/products/newest', [ProductController::class, 'newestProducts']);
-Route::get('/products/cheapest', [ProductController::class, 'cheapestProducts']);
+Route::prefix('products')->group(function () {
+    Route::get('/', [ProductController::class, 'index']);                 // All products
+    Route::get('/newest', [ProductController::class, 'newestProducts']); // 10 newest
+    Route::get('/cheapest', [ProductController::class, 'cheapestProducts']); // 10 cheapest
+    Route::get('/{id}', [ProductController::class, 'show']);             // Single product
+    Route::post('/', [ProductController::class, 'store']);               // Create
+    Route::put('/{id}', [ProductController::class, 'update']);           // Update
+    Route::delete('/{id}', [ProductController::class, 'destroy']);       // Delete
+});
 
-Route::get('/products/{id}', [ProductController::class, 'show']);
-Route::post('/products', [ProductController::class, 'store']);
-Route::put('/products/{id}', [ProductController::class, 'update']);
-Route::delete('/products/{id}', [ProductController::class, 'destroy']);
-Route::get('/filtered-products', [ProductController::class, 'filtered']);   
+// Filtered search (separate route)
+Route::get('/filtered-products', [ProductController::class, 'filtered']);
+
+Route::middleware('auth:sanctum')->prefix('products')->group(function () {
+    Route::post('/', [ProductController::class, 'store']);
+    Route::put('/{id}', [ProductController::class, 'update']);
+    Route::delete('/{id}', [ProductController::class, 'destroy']);
+});
+
 
 
 // User

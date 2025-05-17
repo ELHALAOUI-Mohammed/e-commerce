@@ -9,7 +9,7 @@ const SearchBar = ({ query, setQuery }) => {
         type="text"
         value={query}
         onChange={e => setQuery(e.target.value)}
-        placeholder="Search products..."
+        placeholder="Rechercher des produits..."
         className="w-full focus:outline-none text-sm text-gray-800"
       />
     </div>

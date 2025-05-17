@@ -16,12 +16,16 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
             'password' => 'required|string|min:6',
+            'phone' => 'required|max:20',
+            'address' => 'required|string|max:255',
         ]);
 
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+            'phone' => $validated['phone'],
+            'address' => $validated['address'],
             'role' => 'customer', // Default role
         ]);
 

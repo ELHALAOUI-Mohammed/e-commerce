@@ -49,13 +49,13 @@ export default function SignupPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md">
-        <h2 className="text-2xl font-semibold text-center mb-6">Sign Up</h2>
+        <h2 className="text-2xl font-semibold text-center mb-6">Créer un compte</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Name</label>
+            <label className="block text-sm font-medium text-gray-700">Nom</label>
             <input
               type="text"
-              {...register("name", { required: "Name is required" })}
+              {...register("name", { required: "Le nom est requis" })}
               className="mt-1 w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.name && <p className="text-sm text-red-600 mt-1">{errors.name.message}</p>}
@@ -64,34 +64,34 @@ export default function SignupPage() {
             <label className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
-              {...register("email", { required: "Email is required" })}
+              {...register("email", { required: "L'email est requis" })}
               className="mt-1 w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.email && <p className="text-sm text-red-600 mt-1">{errors.email.message}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Password</label>
+            <label className="block text-sm font-medium text-gray-700">Mot de passe</label>
             <input
               type="password"
-              {...register("password", { required: "Password is required" })}
+              {...register("password", { required: "Le mot de passe est requis" })}
               className="mt-1 w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.password && <p className="text-sm text-red-600 mt-1">{errors.password.message}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Address</label>
+            <label className="block text-sm font-medium text-gray-700">Adresse</label>
             <input
               type="text"
-              {...register("address", { required: "Address is required" })}
+              {...register("address", { required: "L'adresse est requise" })}
               className="mt-1 w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.address && <p className="text-sm text-red-600 mt-1">{errors.address.message}</p>}
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Phone</label>
+            <label className="block text-sm font-medium text-gray-700">Téléphone</label>
             <input
               type="tel"
-              {...register("phone", { required: "Phone number is required" })}
+              {...register("phone", { required: "Le numéro de téléphone est requis" })}
               className="mt-1 w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
             {errors.phone && <p className="text-sm text-red-600 mt-1">{errors.phone.message}</p>}
@@ -100,13 +100,13 @@ export default function SignupPage() {
             type="submit"
             className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
           >
-            Sign Up
+            S'inscrire
           </button>
         </form>
         <p className="text-sm text-center text-gray-600 mt-4">
-          Already have an account?{" "}
+          Vous avez déjà un compte ?{" "}
           <a href="/login" className="text-blue-600 hover:underline">
-            Log In
+            Se connecter
           </a>
         </p>
       </div>

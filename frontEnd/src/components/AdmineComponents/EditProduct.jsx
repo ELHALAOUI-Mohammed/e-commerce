@@ -87,62 +87,62 @@
         onSubmit={handleSubmit}
         className="space-y-6 p-6 max-w-md mx-auto bg-white rounded-lg shadow-md"
       >
-        <h1 className="text-2xl font-bold text-gray-800 mb-6">Edit Product</h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-6">Modifier le produit</h1>
 
         <div className="space-y-2">
           <label htmlFor="productName" className="block text-sm font-medium text-gray-700">
-            Product Name
+        Nom du produit
           </label>
           <input
-            id="productName"
-            value={product.name}
-            onChange={(e) => setProduct({ ...product, name: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
+        id="productName"
+        value={product.name}
+        onChange={(e) => setProduct({ ...product, name: e.target.value })}
+        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
           />
         </div>
 
         <div className="space-y-2">
           <label htmlFor="productPrice" className="block text-sm font-medium text-gray-700">
-            Price
+        Prix
           </label>
           <input
-            id="productPrice"
-            type="number"
-            value={product.price}
-            onChange={(e) => setProduct({ ...product, price: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
+        id="productPrice"
+        type="number"
+        value={product.price}
+        onChange={(e) => setProduct({ ...product, price: e.target.value })}
+        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
           />
         </div>
 
         <div className="space-y-2">
           <label htmlFor="productStock" className="block text-sm font-medium text-gray-700">
-            Stock
+        Stock
           </label>
           <input
-            id="productStock"
-            type="number"
-            value={product.stock}
-            onChange={(e) => setProduct({ ...product, stock: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
+        id="productStock"
+        type="number"
+        value={product.stock}
+        onChange={(e) => setProduct({ ...product, stock: e.target.value })}
+        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
           />
         </div>
 
         <div className="space-y-2">
           <label htmlFor="productCategory" className="block text-sm font-medium text-gray-700">
-            Category
+        Catégorie
           </label>
           <select
-            id="productCategory"
-            value={product.category_id}
-            onChange={(e) => setProduct({ ...product, category_id: e.target.value })}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
+        id="productCategory"
+        value={product.category_id}
+        onChange={(e) => setProduct({ ...product, category_id: e.target.value })}
+        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-500"
           >
-            <option value="">Select Category</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
+        <option value="">Sélectionner une catégorie</option>
+        {categories.map((cat) => (
+          <option key={cat.id} value={cat.id}>
+            {cat.name}
+          </option>
+        ))}
           </select>
         </div>
 
@@ -150,8 +150,8 @@
           type="submit"
           className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700"
         >
-          Save Changes
+          Enregistrer les modifications
         </button>
       </form>
-    );
+        );
   }

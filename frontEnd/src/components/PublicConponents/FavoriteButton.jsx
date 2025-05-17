@@ -40,7 +40,7 @@ export const FavoriteButton = ({ productId }) => {
       className="flex items-center gap-2"
     >
       {isFavorite ? <FaHeart className="text-red-500" /> : <FaRegHeart />}
-      {isFavorite ? "Added" : "Add to Favorite"}
+      {isFavorite ? "Ajouté" : "Ajouter aux favoris"}
     </Button>
   );
 };

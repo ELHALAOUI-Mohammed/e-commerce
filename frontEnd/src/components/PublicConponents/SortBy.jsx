@@ -19,7 +19,7 @@ const SortBy = ({ setSortBy , sortBy}) => {
     className="flex items-center gap-1.5 text-sm font-medium text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
     onClick={() => setOpen(!open)}
   >
-    <span>Sort by</span>
+    <span>Trier par</span>
     <ChevronDown className={`h-3.5 w-3.5 transition-transform duration-200 ${open ? 'rotate-180' : ''}`} />
   </Button>
 
@@ -35,7 +35,7 @@ const SortBy = ({ setSortBy , sortBy}) => {
                 setOpen(false);
               }}
             >
-              <span className="flex-1">Price</span>
+              <span className="flex-1">Prix</span>
               {sortBy === "price" && (
                 <Check className="h-4 w-4 text-primary" />
               )}
